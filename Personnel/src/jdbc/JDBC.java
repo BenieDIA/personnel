@@ -1,18 +1,20 @@
 package jdbc;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import personnel.*;
+import personnel.GestionPersonnel;
+import personnel.Ligue;
+import personnel.Passerelle;
+import personnel.SauvegardeImpossible;
 
 public class JDBC implements Passerelle 
 {
 	Connection connection;
-
 	public JDBC()
 	{
 		try
