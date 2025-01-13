@@ -29,7 +29,8 @@ public class EmployeConsole
 			menu.add(changerPassword(employe));
 			menu.addBack("q");
 			return menu;
-	}
+	} 
+	
 
 	private Option changerNom(final Employe employe)
 	{
