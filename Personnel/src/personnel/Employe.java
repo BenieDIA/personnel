@@ -1,6 +1,7 @@
 package personnel;
 
 import java.io.Serializable;
+
 import java.time.LocalDate;
 
 /**
@@ -16,10 +17,11 @@ public class Employe implements Serializable, Comparable<Employe>
 	private static final long serialVersionUID = 4795721718037994734L;
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
-	private LocalDate date;
+	private LocalDate date = null;
+	private LocalDate dateDepart = null;
 	private GestionPersonnel gestionPersonnel;
 	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate date)
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate date, LocalDate dateDepart)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -28,6 +30,7 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.mail = mail;
 		this.ligue = ligue;
 		this.date = date;
+		this.dateDepart = dateDepart;
 	}
 	
 	/**
@@ -155,6 +158,15 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
+	
+	public LocalDate getDateDepart() {
+		return dateDepart;
+	}
+	
+	public void setDateDepart(LocalDate dateDepart) {
+		this.dateDepart = dateDepart;
+	}
+	
 
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
@@ -186,7 +198,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	@Override
 	public String toString()
 	{
-		String res = nom + " " + prenom + " " + mail + " (";
+		String res = nom + " " + prenom + " " + mail +" "+date+" (";
 		if (estRoot())
 			res += "super-utilisateur";
 		else
