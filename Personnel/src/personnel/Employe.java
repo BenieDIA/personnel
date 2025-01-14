@@ -16,10 +16,11 @@ public class Employe implements Serializable, Comparable<Employe>
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
-	private LocalDate Dateinscription = LocalDate.of(2025, 01, 1); 
+	private LocalDate Dateinscription = null;
+	private LocalDate Depart = null;
 	
 	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription)
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -28,6 +29,7 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.mail = mail;
 		this.ligue = ligue;
 		this.Dateinscription = Dateinscription;
+		this.Depart = Depart;
 		
 	 	 /* ajout de Benie*/
 	}
@@ -38,6 +40,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	public void setDateInscription(LocalDate Dateinscription){
 		this.Dateinscription = Dateinscription;
+	}
+	public LocalDate getDepart() {
+		return Depart;
+	}
+	public void setDepart(LocalDate depart) {
+		Depart = depart;
 	}
 	
 	/**
@@ -195,4 +203,5 @@ public class Employe implements Serializable, Comparable<Employe>
 			res += ligue.toString();
 		return res + ")";
 	}
+
 }

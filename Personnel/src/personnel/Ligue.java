@@ -93,7 +93,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * Retourne les employés de la ligue.
 	 * @return les employés de la ligue dans l'ordre alphabétique.
 	 */
-	
+
 	public SortedSet<Employe> getEmployes()
 	{
 		return Collections.unmodifiableSortedSet(employes);
@@ -109,16 +109,19 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @return l'employé créé. 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Dateinscription)
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
 	{
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Dateinscription);/*benie*/
+		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Dateinscription, Depart);/*benie*/
 		employes.add(employe);
 		return employe;
 	}
 	
 	void remove(Employe employe)
 	{
+		employe.setDepart(LocalDate.now());/*benie*/
 		employes.remove(employe);
+		
+		
 	}
 	
 	/**
@@ -143,4 +146,6 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	{
 		return nom;
 	}
+
+	
 }
