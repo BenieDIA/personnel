@@ -98,9 +98,14 @@ public class LigueConsole
 		return new Option("ajouter un employé", "a",
 				() -> 
 				{
-					ligue.addEmploye(getString("nom : "), 
-						getString("prenom : "), getString("mail : "), 
-						getString("password : "), LocalDate.now());/*benie*/
+					try {
+						Employe employe = ligue.addEmploye(getString("nom : "), 
+							getString("prenom : "), getString("mail : "), 
+							getString("password : "), LocalDate.now(),null);
+					} catch (datesInvalides e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}/*benie*/
 				}
 		);
 	}
@@ -120,7 +125,12 @@ public class LigueConsole
 	{
 		return new List<>("Supprimer un employé", "s", 
 				() -> new ArrayList<>(ligue.getEmployes()),
-				(index, element) -> {element.remove();}
+				(index, element) -> {try {
+					element.remove();
+				} catch (datesInvalides e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
 				);
 	}
 	

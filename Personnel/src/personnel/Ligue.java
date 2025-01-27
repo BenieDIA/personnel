@@ -107,16 +107,24 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @param mail l'adresse mail de l'employé.
 	 * @param password le password de l'employé.
 	 * @return l'employé créé. 
+	 * @throws datesInvalides 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart) throws datesInvalides
 	{
+		
+		
 		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Dateinscription, Depart);/*benie*/
+		employe.setDateInscription(LocalDate.now());
 		employes.add(employe);
 		return employe;
+		
+		
+		
+		
 	}
 	
-	void remove(Employe employe)
+	void remove(Employe employe) throws datesInvalides
 	{
 		employe.setDepart(LocalDate.now());/*benie*/
 		employes.remove(employe);
@@ -147,5 +155,6 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		return nom;
 	}
 
+	
 	
 }

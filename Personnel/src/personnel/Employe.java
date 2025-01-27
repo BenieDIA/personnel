@@ -16,11 +16,11 @@ public class Employe implements Serializable, Comparable<Employe>
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
-	private LocalDate Dateinscription = null;
+	private LocalDate Dateinscription = LocalDate.now();
 	private LocalDate Depart = null;
 	
 	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
+	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -38,15 +38,33 @@ public class Employe implements Serializable, Comparable<Employe>
 		return Dateinscription;
 		
 	}
-	public void setDateInscription(LocalDate Dateinscription){
+	public void setDateInscription(LocalDate Dateinscription) throws datesInvalides{
+		if(Dateinscription.isAfter(LocalDate.now())){
+			
+			throw new datesInvalides("La date d'arrivée ne peut pas être dans le futur.");
+			
+		}
+		
+		
 		this.Dateinscription = Dateinscription;
+		
 	}
 	public LocalDate getDepart() {
 		return Depart;
 	}
-	public void setDepart(LocalDate depart) {
-		Depart = depart;
+	
+	
+	public void setDepart(LocalDate depart) throws datesInvalides {
+		
+        if(Depart.isAfter(LocalDate.now()))		
+			throw new datesInvalides("La date de depart ne peut pas etre dans le futur");
+        if(Depart.isAfter(Dateinscription))		
+			throw new datesInvalides("La date de depart ne peut pas etre après la date dinscription");
+        this.Depart = Depart;	
+        
+	
 	}
+	
 	
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
@@ -169,9 +187,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
+	 * @throws datesInvalides 
 	 */
 	
-	public void remove()
+	public void remove() throws datesInvalides
 	{
 		Employe root = gestionPersonnel.getRoot();
 		if (this != root)
