@@ -12,6 +12,7 @@ import personnel.Ligue;
 import personnel.Passerelle;
 import personnel.SauvegardeImpossible;
 
+
 public class JDBC implements Passerelle 
 {
 	Connection connection;

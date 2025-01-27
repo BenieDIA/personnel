@@ -1,7 +1,6 @@
 package personnel;
 
 import java.io.Serializable;
-
 import java.time.LocalDate;
 
 /**
@@ -17,9 +16,11 @@ public class Employe implements Serializable, Comparable<Employe>
 	private static final long serialVersionUID = 4795721718037994734L;
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
-	private LocalDate date = null;
+	private LocalDate date = LocalDate.now();
 	private LocalDate dateDepart = null;
 	private GestionPersonnel gestionPersonnel;
+	
+
 	
 	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate date, LocalDate dateDepart)
 	{
@@ -32,7 +33,8 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.date = date;
 		this.dateDepart = dateDepart;
 	}
-	
+		
+
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
 	 * passée en paramètre.
@@ -155,7 +157,8 @@ public class Employe implements Serializable, Comparable<Employe>
 		return date;
 	}
 	
-	public void setDate(LocalDate date) {
+	public void setDate(LocalDate date) throws dateInvalide{
+		if(date.isAfter(LocalDate.now())) throw new dateInvalide("Date dans le futur");
 		this.date = date;
 	}
 	
@@ -163,8 +166,8 @@ public class Employe implements Serializable, Comparable<Employe>
 		return dateDepart;
 	}
 	
-	public void setDateDepart(LocalDate dateDepart) {
-		this.dateDepart = dateDepart;
+	public void setDateDepart(LocalDate dateDepart) throws dateInvalide {
+	
 	}
 	
 
@@ -173,7 +176,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * récupère les droits d'administration sur sa ligue.
 	 */
 	
-	public void remove()
+	public void remove() throws dateInvalide
 	{
 		Employe root = gestionPersonnel.getRoot();
 		if (this != root)

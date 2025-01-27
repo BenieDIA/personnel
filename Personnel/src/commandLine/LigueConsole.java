@@ -2,6 +2,7 @@ package commandLine;
 
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -98,11 +99,16 @@ public class LigueConsole
 		return new Option("ajouter un employé", "a",
 				() -> 
 				{
-					ligue.addEmploye(getString("nom : "), 
-						getString("prenom : "), getString("mail : "), 
-						getString("password : "), LocalDate.now(), null)
-						
-					;
+					try {
+						ligue.addEmploye(getString("nom : "), 
+							getString("prenom : "), getString("mail : "), 
+							getString("password : "), LocalDate.now(), null)
+							
+						;
+					} catch (dateInvalide e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 						
 				}
 		);
@@ -123,7 +129,12 @@ public class LigueConsole
 	{
 		return new List<>("Supprimer un employé", "s", 
 				() -> new ArrayList<>(ligue.getEmployes()),
-				(index, element) -> {element.remove();}
+				(index, element) -> {try {
+					element.remove();
+				} catch (dateInvalide e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
 				);
 	}
 	
