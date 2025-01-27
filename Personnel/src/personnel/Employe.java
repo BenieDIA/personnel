@@ -16,7 +16,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	private static final long serialVersionUID = 4795721718037994734L;
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
-	private LocalDate date = LocalDate.now();
+	private LocalDate date = LocalDate.now();	
 	private LocalDate dateDepart = null;
 	private GestionPersonnel gestionPersonnel;
 	
@@ -167,7 +167,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	
 	public void setDateDepart(LocalDate dateDepart) throws dateInvalide {
+		if(dateDepart.isAfter(LocalDate.now())) throw new dateInvalide("Date dans le futur");
+		if(dateDepart.isBefore(getDate())) throw new dateInvalide("Date depart ne peut pas etre avant la date d'inscription");
 	
+			this.dateDepart = dateDepart;
 	}
 	
 

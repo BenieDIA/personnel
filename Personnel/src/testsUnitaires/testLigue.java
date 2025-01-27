@@ -28,6 +28,7 @@ class testLigue
 		assertEquals(employe, ligue.getEmployes().first());
 	}
 	
+	// test des Methodes Setters DATE INSCRIPTION ET DEPART
 	
 	@Test
 	public void setdDate() throws SauvegardeImpossible, dateInvalide {
@@ -39,4 +40,22 @@ class testLigue
 	  // Assert that the date retrieved by getDate matches the expected date of birth
 	  assertEquals(employe1.getDate(), LocalDate.of(2026, 01, 02));
 	}
+	
+	@Test
+	public void setdDateDepart() throws SauvegardeImpossible, dateInvalide {
+	  Ligue ligue = gestionPersonnel.addLigue("Darts League");
+	  Employe employe2 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",
+	                                      LocalDate.now(),
+	                                       LocalDate.of(2026, 01, 02)); 
+
+	  // Assert that the date retrieved by getDate matches the expected date of birth
+	  assertEquals(employe2.getDate(), LocalDate.of(2026, 01, 02));
+	}
+	
+	
+	// test des Methodes Setters 
+	
+	
+	
+	
 }
