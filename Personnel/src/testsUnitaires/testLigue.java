@@ -51,8 +51,39 @@ class testLigue
 	}
 	
 	
-	// test des Methodes Setters 
-	
+	// test des Methodes Setters déjà existants
+	//Test pour le setNom
+    @Test
+    void testSetNom() throws SauvegardeImpossible, datesInvalides {
+        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
+        employe.setNom("Bouchard");
+        assertEquals("Bouchard", employe.getNom());
+    }
+    
+    
+  //Test pour le setPrenom
+    @Test
+    void testSetPrenom() throws SauvegardeImpossible, datesInvalides{
+        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
+        employe.setPrenom("Gérard");
+        assertEquals("Gérard", employe.getPrenom());
+    }
+    
+    
+  //Test pour le setMail
+    @Test
+    void testSetEmail() throws SauvegardeImpossible, datesInvalides{
+        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
+        employe.setMail("g.bouchard@gmail.com");
+        assertEquals("g.bouchard@gmail.com", employe.getMail());
+    }
+
+    
+  //Test pour le setPassword j'ai pas fait de test pour le password parce qu'il faudrait mettre un getters or qu'il doit rester privé corrigez moi si je me trompe
+
     
     
 }

@@ -59,7 +59,7 @@ public class Employe implements Serializable, Comparable<Employe>
         if(Depart.isAfter(LocalDate.now()))		
 			throw new datesInvalides("La date de depart ne peut pas etre dans le futur");
         if(Depart.isAfter(Dateinscription))		
-			throw new datesInvalides("La date de depart ne peut pas etre après la date dinscription");
+			throw new datesInvalides("La date de depart ne peut pas etre après la date d'inscription");
         this.Depart = Depart;	
         
 	
