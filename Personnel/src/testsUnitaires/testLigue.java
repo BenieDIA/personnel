@@ -80,9 +80,24 @@ class testLigue
         employe.setMail("g.bouchard@gmail.com");
         assertEquals("g.bouchard@gmail.com", employe.getMail());
     }
+	//Test du remove employe
+	 @Test
+ 
+	public void remove(Employe employe) throws datesInvalides, SauvegardeImpossible
+	
+	{
+    	 Ligue ligue = gestionPersonnel.addLigue("Darts League");
+   	 Employe employe1 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",
+   	                                      LocalDate.now(),
+   	                                       null);  
+		employe1.setDepart(LocalDate.now());/*benie*/
+		employe1.remove();
+		 assertEquals(employe1.getDepart(), LocalDate.now());
+		
+	}
 
     
-  //Test pour le setPassword j'ai pas fait de test pour le password parce qu'il faudrait mettre un getters or qu'il doit rester privé corrigez moi si je me trompe
+
 
     
     
