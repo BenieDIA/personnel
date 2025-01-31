@@ -65,8 +65,48 @@ class testLigue
 	}
     
     
+<<<<<<< HEAD
  
  
+=======
+  //Test pour le setPrenom
+    @Test
+    void testSetPrenom() throws SauvegardeImpossible, datesInvalides{
+        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
+        employe.setPrenom("Gérard");
+        assertEquals("Gérard", employe.getPrenom());
+    }
+    
+    
+  //Test pour le setMail
+    @Test
+    void testSetEmail() throws SauvegardeImpossible, datesInvalides{
+        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
+        employe.setMail("g.bouchard@gmail.com");
+        assertEquals("g.bouchard@gmail.com", employe.getMail());
+    }
+	//Test du remove employe
+	 @Test
+ 
+	public void remove(Employe employe) throws datesInvalides, SauvegardeImpossible
+	
+	{
+    	 Ligue ligue = gestionPersonnel.addLigue("Darts League");
+   	 Employe employe1 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",
+   	                                      LocalDate.now(),
+   	                                       null);  
+		employe1.setDepart(LocalDate.now());/*benie*/
+		employe1.remove();
+		 assertEquals(employe1.getDepart(), LocalDate.now());
+		
+	}
+
+    
+
+
+>>>>>>> a509b7fe3a32d415b61e33bac681398d06b3f523
     
     
 }
