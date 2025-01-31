@@ -1,7 +1,9 @@
 package testsUnitaires;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.event.ItemEvent;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,9 @@ class testLigue
 		assertEquals(employe, ligue.getEmployes().first());
 	}
 	
+	
+	
+	
 	// test des Methodes Setters DATE INSCRIPTION ET DEPART
 	
 	@Test
@@ -36,8 +41,6 @@ class testLigue
 	  Employe employe1 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",
 	                                      LocalDate.now(),
 	                                       LocalDate.of(2026, 01, 02)); 
-
-	  // Assert that the date retrieved by getDate matches the expected date of birth
 	  assertEquals(employe1.getDate(), LocalDate.of(2026, 01, 02));
 	}
 	
@@ -47,13 +50,20 @@ class testLigue
 	  Employe employe2 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",
 	                                      LocalDate.now(),
 	                                       LocalDate.of(2026, 01, 02)); 
-
-	  // Assert that the date retrieved by getDate matches the expected date of birth
 	  assertEquals(employe2.getDate(), LocalDate.of(2026, 01, 02));
 	}
 	
 	
-	// test des Methodes Setters 
+	// test des Methode Remove
+
+	@Test
+	void remove(Employe employe) throws dateInvalide, SauvegardeImpossible
+	{
+		  Ligue ligue = gestionPersonnel.addLigue("Darts League");
+		  Employe employe3 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty", LocalDate.now(),
+                LocalDate.of(2026, 01, 02));
+		  	
+	}
 	
 	
 	
