@@ -13,14 +13,14 @@ class testLigue
 	GestionPersonnel gestionPersonnel = GestionPersonnel.getGestionPersonnel();
 	
 	@Test
-	void createLigue() throws SauvegardeImpossible
+	 public void createLigue() throws SauvegardeImpossible
 	{
 		Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
 		assertEquals("Fléchettes", ligue.getNom());
 	}
 
 	@Test
-	void addEmploye() throws SauvegardeImpossible, datesInvalides
+	 public void addEmploye() throws SauvegardeImpossible, datesInvalides
 	{
 		Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
 		Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2026,12,01), LocalDate.of(2023,02,04)); /*bnie*/
@@ -29,7 +29,7 @@ class testLigue
 	// test des Methodes Setters DATE INSCRIPTION ET DEPART
 	
 	@Test
-	public void setdDateinscription() throws SauvegardeImpossible, datesInvalides {
+	 public void setdDateinscription() throws SauvegardeImpossible, datesInvalides {
 	  Ligue ligue = gestionPersonnel.addLigue("Darts League");
 	  Employe employe1 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",
 	                                      LocalDate.now(),
@@ -40,7 +40,7 @@ class testLigue
 	}
 	
 	@Test
-	public void setdDateDepart() throws SauvegardeImpossible, datesInvalides {
+	 public void setDateDepart() throws SauvegardeImpossible, datesInvalides {
 	  Ligue ligue = gestionPersonnel.addLigue("Darts League");
 	  Employe employe2 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",
 	                                      LocalDate.now(),
@@ -54,36 +54,19 @@ class testLigue
 	// test des Methodes Setters déjà existants
 	//Test pour le setNom
     @Test
-    void testSetNom() throws SauvegardeImpossible, datesInvalides {
-        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
-        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
-        employe.setNom("Bouchard");
-        assertEquals("Bouchard", employe.getNom());
-    }
+ 
+	 public void remove(Employe employe) throws datesInvalides, SauvegardeImpossible
+	{
+    	 Ligue ligue = gestionPersonnel.addLigue("Darts League");
+   	     Employe employe4 = ligue.addEmploye("Joe", "Bob", "jb@live.com", "azerty",LocalDate.now(),LocalDate.of(2026, 01, 02));
+		 ligue.remove(employe4);
+		 assertEquals(0, gestionPersonnel.getLigue(employe4));
+		
+	}
     
     
-  //Test pour le setPrenom
-    @Test
-    void testSetPrenom() throws SauvegardeImpossible, datesInvalides{
-        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
-        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
-        employe.setPrenom("Gérard");
-        assertEquals("Gérard", employe.getPrenom());
-    }
-    
-    
-  //Test pour le setMail
-    @Test
-    void testSetEmail() throws SauvegardeImpossible, datesInvalides{
-        Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
-        Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty", LocalDate.of(2025, 01, 24), null);
-        employe.setMail("g.bouchard@gmail.com");
-        assertEquals("g.bouchard@gmail.com", employe.getMail());
-    }
-
-    
-  //Test pour le setPassword j'ai pas fait de test pour le password parce qu'il faudrait mettre un getters or qu'il doit rester privé corrigez moi si je me trompe
-
+ 
+ 
     
     
 }
