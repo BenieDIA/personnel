@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS `employe` (
 ) ;
 CREATE TABLE IF NOT EXISTS `ligue` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) NOT NULL,
+  `nom` varchar(50) NOT NULl,
   PRIMARY KEY (`id`)
 )

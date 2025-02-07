@@ -17,10 +17,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
 	private LocalDate Dateinscription = LocalDate.now();
-	private LocalDate Depart = null;
+	private LocalDate depart =  null;
 	
 	
-	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
+	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate depart)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -29,7 +29,7 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.mail = mail;
 		this.ligue = ligue;
 		this.Dateinscription = Dateinscription;
-		this.Depart = Depart;
+		this.depart = depart;
 		
 	 	 /* ajout de Benie*/
 	}
@@ -50,18 +50,20 @@ public class Employe implements Serializable, Comparable<Employe>
 		
 	}
 	public LocalDate getDepart() {
-		return Depart;
+		return depart;
 	}
 	
 	
 	public void setDepart(LocalDate depart) throws datesInvalides {
 		
-        if(Depart.isAfter(LocalDate.now()))		
+        if(depart.isAfter(LocalDate.now()))	
 			throw new datesInvalides("La date de depart ne peut pas etre dans le futur");
-        if(Depart.isAfter(Dateinscription))		
-			throw new datesInvalides("La date de depart ne peut pas etre après la date d'inscription");
-        this.Depart = Depart;	
+        if(depart.isBefore(Dateinscription))		
+			throw new datesInvalides("La date de depart ne peut pas etre avant la date d'inscription");
         
+        this.depart = depart;	
+        
+
 	
 	}
 	

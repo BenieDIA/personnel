@@ -1,11 +1,15 @@
 package commandLine;
 
 import static commandLineMenus.rendering.examples.util.InOut.getString;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
 import personnel.Employe;
+import personnel.datesInvalides;
 
 public class EmployeConsole 
 {
@@ -21,16 +25,18 @@ public class EmployeConsole
 
 	Option editerEmploye(Employe employe)
 	{
-			Menu menu = new Menu("Gérer le compte " + employe.getNom(), "c");
+			Menu menu = new Menu("Modifier les infos de " + employe.getNom(), "m");
 			menu.add(afficher(employe));
 			menu.add(changerNom(employe));
 			menu.add(changerPrenom(employe));
 			menu.add(changerMail(employe));
 			menu.add(changerPassword(employe));
+			menu.add(changerDateInscription(employe));
 			menu.addBack("q");
 			return menu;
+			
+			
 	}
-
 	private Option changerNom(final Employe employe)
 	{
 		return new Option("Changer le nom", "n", 
@@ -52,6 +58,26 @@ public class EmployeConsole
 	{
 		return new Option("Changer le password", "x", () -> {employe.setPassword(getString("Nouveau password : "));});
 	}
+
+	private Option changerDateInscription(final Employe employe) throws DateTimeParseException{
+	    return new Option("Changer la date d'inscription", "d", () -> {
+	   	 String dateStr = getString("Nouvelle date d'inscription (aaaa-mm-jj) : ");
+	        try {
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		        LocalDate date = LocalDate.parse(dateStr, formatter);
+	        	DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				employe.setDateInscription(date);
+			} catch (datesInvalides e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}catch (DateTimeParseException d) {
+	            System.out.println("Format de date invalide: " + d.getMessage());
+	        }
+	    });
+	}
+	 
+
+
 	
 
 }
