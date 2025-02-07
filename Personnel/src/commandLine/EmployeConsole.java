@@ -2,6 +2,7 @@ package commandLine;
 
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
+
 import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;

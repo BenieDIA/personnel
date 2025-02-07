@@ -108,19 +108,35 @@ public class LigueConsole
 					} catch (dateInvalide e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
-						
+					}	
 				}
 		);
 	}
+	
+	private List<Employe> selectionnerEmploye(final Ligue ligue)
+	{
+		return new List<Employe>("Selectionné un employé","m",
+				() -> new ArrayList<>(ligue.getEmployes()),
+				(element) -> selectEmploye(ligue)
+				);
+	}
+	
+	private Menu selectEmploye(Ligue ligue)
+	{
+		Menu menu = new Menu("Gerer l'employé "+ ligue.getNom(), "d");
+		menu.add(supprimerEmploye(ligue));
+		menu.add(modifierEmploye(ligue));
+		menu.addBack("q");
+		return menu;
+	}
+	
 	
 	private Menu gererEmployes(Ligue ligue)
 	{
 		Menu menu = new Menu("Gérer les employés de " + ligue.getNom(), "e");
 		menu.add(afficherEmployes(ligue));
 		menu.add(ajouterEmploye(ligue));
-		menu.add(modifierEmploye(ligue));
-		menu.add(supprimerEmploye(ligue));
+		menu.add(selectionnerEmploye(ligue));
 		menu.addBack("q");
 		return menu;
 	}
