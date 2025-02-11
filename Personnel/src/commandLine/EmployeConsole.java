@@ -9,6 +9,7 @@ import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
 import personnel.Employe;
+import personnel.Ligue;
 import personnel.datesInvalides;
 
 public class EmployeConsole 
@@ -20,12 +21,23 @@ public class EmployeConsole
 
 	ListOption<Employe> editerEmploye()
 	{
-		return (employe) -> editerEmploye(employe);		
+		return (employe) -> selectEmploye(employe);		
 	}
 
-	Option editerEmploye(Employe employe)
+	Option selectEmploye(Employe employe)
 	{
-			Menu menu = new Menu("Modifier les infos de " + employe.getNom(), "m");
+			Menu menu = new Menu("Selectionner " + employe.getNom(), "w");
+			menu.add(afficher(employe));
+			menu.add(Modifier(employe));
+			menu.add(supprimer(employe));
+			menu.addBack("q");
+			return menu;
+			
+			
+	}
+	Option Modifier(Employe employe)
+	{
+			Menu menu = new Menu("Modifier " + employe.getNom(), "m");
 			menu.add(afficher(employe));
 			menu.add(changerNom(employe));
 			menu.add(changerPrenom(employe));
@@ -37,6 +49,9 @@ public class EmployeConsole
 			
 			
 	}
+	
+
+
 	private Option changerNom(final Employe employe)
 	{
 		return new Option("Changer le nom", "n", 
@@ -70,12 +85,25 @@ public class EmployeConsole
 			} catch (datesInvalides e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
 			}catch (DateTimeParseException d) {
 	            System.out.println("Format de date invalide: " + d.getMessage());
 	        }
 	    });
 	}
-	 
+	
+	private Option supprimer(Employe employe)
+	{
+		return new Option("Supprimer", "v", () -> {try {
+			employe.remove();
+		} catch (datesInvalides e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}});
+	}
+	
+
+
 
 
 	

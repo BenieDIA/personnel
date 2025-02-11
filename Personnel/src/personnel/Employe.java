@@ -16,7 +16,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
-	private LocalDate Dateinscription = LocalDate.now();
+	private LocalDate Dateinscription;
 	private LocalDate depart =  null;
 	
 	
@@ -40,12 +40,8 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	public void setDateInscription(LocalDate Dateinscription) throws datesInvalides{
 		if(Dateinscription.isAfter(LocalDate.now())){
-			
-			throw new datesInvalides("La date d'arrivée ne peut pas être dans le futur.");
-			
+			throw new datesInvalides("La date d'inscription ne peut pas être dans le futur.");
 		}
-		
-		
 		this.Dateinscription = Dateinscription;
 		
 	}

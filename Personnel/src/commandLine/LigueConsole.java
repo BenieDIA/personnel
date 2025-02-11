@@ -1,5 +1,7 @@
 package commandLine;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
@@ -97,21 +99,29 @@ public class LigueConsole
 	
 	private Option ajouterEmploye(final Ligue ligue)
 	{
+		 
+		
 		return new Option("ajouter un employé", "a",
 				() -> 
 				{
+					String dateStr = getString("Nouvelle date d'inscription (aaaa-mm-jj) : ");
 					try {
+						
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+					    LocalDate date = LocalDate.parse(dateStr, formatter);
 						ligue.addEmploye(getString("nom : "), 
 							getString("prenom : "), getString("mail : "), 
 							getString("password : "), 
-							LocalDate.now(), 
-							null);
-						    
-						    
+							date, 
+							null);		    
 					} catch (datesInvalides e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						System.out.println("Format de date invalide: " + e.getMessage());
 					}
+					catch (DateTimeParseException d) {
+			            System.out.println("Format de date invalide: " + d.getMessage());
+			        }
 				}
 		);
 	}
@@ -128,16 +138,17 @@ public class LigueConsole
 	
 	private List<Employe> selectionEmploye(final Ligue ligue)
 	{
-		return new List<Employe>("Sélectionner un employe", "s", 
+		return new List<>("selectionner employe", "e", 
 				() -> new ArrayList<>(ligue.getEmployes()),
-				(element) -> selectEmploye(element, ligue)
+				employeConsole.editerEmploye()
+    			
 				);
 	}
 	
-	Option selectEmploye(Employe employe, Ligue ligue)
+	Option selectEmploye(Ligue ligue, Employe employe)
 	{
-			Menu menu = new Menu("Gérer le compte " + employe.getNom(), "c");
-			menu.add(employeConsole.editerEmploye(employe));
+			Menu menu = new Menu("Gérer le compte " + ligue.getEmployes(), "c");
+			menu.add(employeConsole.selectEmploye(employe));
 			menu.add(supprimerEmploye(ligue));
 			menu.addBack("q");
 			return menu;
@@ -161,7 +172,7 @@ public class LigueConsole
 	{
 		return new List<Employe>("changer administrateur", "k", 
 				() -> new ArrayList<>(ligue.getEmployes()),
-				(index, element) -> ligue.setAdministrateur(element));
+				(index, element) -> ligue.setAdministrateur(element ));
 		
 	}		
 
