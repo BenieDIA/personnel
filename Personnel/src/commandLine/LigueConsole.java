@@ -4,23 +4,28 @@ import static commandLineMenus.rendering.examples.util.InOut.getString;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import commandLineMenus.List;
+import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
-
+import commandLineMenus.examples.employees.core.Employee;
 import personnel.*;
 
 public class LigueConsole 
 {
 	private GestionPersonnel gestionPersonnel;
 	private EmployeConsole employeConsole;
+	private Ligue ligue;
 
 	public LigueConsole(GestionPersonnel gestionPersonnel, EmployeConsole employeConsole)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.employeConsole = employeConsole;
+	
 	}
 
 	Menu menuLigues()
@@ -94,41 +99,49 @@ public class LigueConsole
 				);
 	}
 	
-	private Option ajouterEmploye(final Ligue ligue)
+	private Option ajouterEmploye(final Ligue ligue)  throws DateTimeParseException
 	{
 		return new Option("ajouter un employé", "a",
 				() -> 
 				{
+					  String dateStr = getString("Nouvelle date d'inscription (aaaa-mm-jj) : ");
 					try {
+						 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		            	    LocalDate date = LocalDate.parse(dateStr, formatter);
+		            	  
 						ligue.addEmploye(getString("nom : "), 
 							getString("prenom : "), getString("mail : "), 
-							getString("password : "), LocalDate.now(), null)
-							
+							getString("password : "), date, null)
 						;
 					} catch (dateInvalide e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}	
+						 System.out.println("date invalide: " + e.getMessage());
+					}	catch (DateTimeParseException d) {
+		                System.out.println("Format de date invalide: " + d.getMessage());
+		            }
 				}
 		);
 	}
 	
-	private List<Employe> selectionnerEmploye(final Ligue ligue)
+
+	
+	private  List<Employe> selectionnerEmploye(final Ligue ligue)
 	{
 		return new List<Employe>("Selectionné un employé","m",
 				() -> new ArrayList<>(ligue.getEmployes()),
-				(element) -> selectEmploye(ligue, element)
+				employeConsole.selectEmploye()
 				);
 	}
 	
-	private Menu selectEmploye(Ligue ligue, Employe employe)
+	
+	Option selectEmploye(Ligue ligue, Employe employe)
 	{
-		Menu menu = new Menu("Gerer l'employé "+ ligue.getNom(), "d");
+		Menu menu = new Menu("Gérer le compte " + ligue.getEmployes(), "c");
+		menu.add(employeConsole.selectEmploye(employe));
 		menu.add(supprimerEmploye(ligue));
-		menu.add(employeConsole.editerEmploye(employe));
 		menu.addBack("q");
 		return menu;
-	}
+}
 	
 	
 	private Menu gererEmployes(Ligue ligue)
@@ -140,7 +153,7 @@ public class LigueConsole
 		menu.addBack("q");
 		return menu;
 	}
-
+	
 	private List<Employe> supprimerEmploye(final Ligue ligue)
 	{
 		return new List<>("Supprimer un employé", "s", 
@@ -154,6 +167,7 @@ public class LigueConsole
 				);
 	}
 	
+	
 	private List<Employe> changerAdministrateur(final Ligue ligue)
 	{
 		return new List<>("Changer l'admin", "h",
@@ -161,14 +175,7 @@ public class LigueConsole
 				(index , element) ->ligue.setAdministrateur(element));
 	}		
 
-	private List<Employe> modifierEmploye(final Ligue ligue)
-	{
-		return new List<>("Modifier un employé", "e", 
-				() -> new ArrayList<>(ligue.getEmployes()),
-				employeConsole.editerEmploye()
-				);
-	}
-	
+
 	private Option supprimer(Ligue ligue)
 	{
 		return new Option("Supprimer", "d", () -> {ligue.remove();});
