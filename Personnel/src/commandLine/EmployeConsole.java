@@ -19,7 +19,7 @@ public class EmployeConsole
 		return new Option("Afficher l'employé", "l", () -> {System.out.println(employe);});
 	}
 
-	ListOption<Employe> editerEmploye()
+	ListOption<Employe> selectEmploye()
 	{
 		return (employe) -> selectEmploye(employe);		
 	}
