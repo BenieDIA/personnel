@@ -76,6 +76,7 @@ public class LigueConsole
 		menu.add(afficher(ligue));
 		menu.add(gererEmployes(ligue));
 		menu.add(changerAdministrateur(ligue));
+		menu.add(retirerAdministrateur(ligue));
 		menu.add(changerNom(ligue));
 		menu.add(supprimer(ligue));
 		menu.addBack("q");
@@ -175,7 +176,13 @@ public class LigueConsole
 				(index, element) -> ligue.setAdministrateur(element ));
 		
 	}		
-
+	private Option retirerAdministrateur(Ligue ligue)
+	{
+	
+		return new Option("Retirer les droits d'administrateur", "t", () -> {ligue.setAdministrateur(gestionPersonnel.getRoot());});
+		
+	}		
+	
 	private List<Employe> modifierEmploye(final Ligue ligue)
 	{
 		return new List<>("Modifier un employé", "e", 
@@ -183,7 +190,6 @@ public class LigueConsole
 				employeConsole.editerEmploye()
     			);
 	}
-	
 	
 	private Option supprimer(Ligue ligue)
 	{
