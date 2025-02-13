@@ -141,7 +141,7 @@ public class LigueConsole
 	{
 		return new List<>("selectionner employe", "e", 
 				() -> new ArrayList<>(ligue.getEmployes()),
-				employeConsole.editerEmploye()
+				employeConsole.selectEmploye()
     			
 				);
 	}
