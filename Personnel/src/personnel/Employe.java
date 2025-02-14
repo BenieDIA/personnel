@@ -40,7 +40,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	public void setDateInscription(LocalDate Dateinscription) throws datesInvalides{
 		if(Dateinscription.isAfter(LocalDate.now())){
-			throw new datesInvalides("La date d'inscription ne peut pas être dans le futur.");
+			throw new datesInvalides("date invalide: date dans le futur");
 		}
 		this.Dateinscription = Dateinscription;
 		
@@ -53,7 +53,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setDepart(LocalDate depart) throws datesInvalides {
 		
         if(depart.isAfter(LocalDate.now()))	
-			throw new datesInvalides("La date de depart ne peut pas etre dans le futur");
+			throw new datesInvalides("date invalide: date dans le futur");
         if(depart.isBefore(Dateinscription))		
 			throw new datesInvalides("La date de depart ne peut pas etre avant la date d'inscription");
         
