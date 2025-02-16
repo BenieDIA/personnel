@@ -45,6 +45,7 @@ public class EmployeConsole
 	Option Modifier(Employe employe)
 	{
 			Menu menu = new Menu("Modifier " + employe.getNom(), "m");
+			menu.add(afficher(employe));
 			menu.add(changerNom(employe));
 			menu.add(changerPrenom(employe));
 			menu.add(changerMail(employe));

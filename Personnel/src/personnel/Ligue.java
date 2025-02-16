@@ -1,6 +1,7 @@
 package personnel;
 
 import java.io.Serializable;
+
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -112,7 +113,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate date, LocalDate dateDepart) throws dateInvalide
 	{
 		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, date, null);
-		employe.setDate(LocalDate.now());
+		employe.setDate(date);
 		employes.add(employe);
 		return employe;
 	}

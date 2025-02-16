@@ -17,10 +17,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
 	private LocalDate date = LocalDate.now();	
+
 	private LocalDate dateDepart = null;
 	private GestionPersonnel gestionPersonnel;
 	
-
 	
 	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate date, LocalDate dateDepart)
 	{
