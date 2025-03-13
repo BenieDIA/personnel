@@ -14,27 +14,51 @@ import java.time.LocalDate;
 public class Employe implements Serializable, Comparable<Employe>
 {
 	private static final long serialVersionUID = 4795721718037994734L;
+	private int id = -1;
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
-	private LocalDate date = LocalDate.now();	
+	private LocalDate dateArriver = LocalDate.now();	
 
 	private LocalDate dateDepart = null;
 	private GestionPersonnel gestionPersonnel;
 	
-	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate date, LocalDate dateDepart)
+	Employe(GestionPersonnel gestionPersonnel, int id, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart)
 	{
+	    this.dateArriver = dateArriver;
+	    this.nom = nom;
+	    this.prenom = prenom;
+	    this.password = password;
+	    this.mail = mail;
+	    this.ligue = ligue;
+	    this.gestionPersonnel = gestionPersonnel;
+	    this.id = id;
+	}
+	
+	
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible
+	{
+	    this(gestionPersonnel, -1, ligue, nom, prenom, mail, password, dateArriver, dateDepart);
+	    this.id = gestionPersonnel.insert(this);
+	}
+	
+	Employe(GestionPersonnel gestionPersonnel,int id,LocalDate dateArriver,String nom, String prenom, String mail, String password)
+	{
+		this.dateArriver = dateArriver;
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.password = password;
 		this.mail = mail;
-		this.ligue = ligue;
-		this.date = date;
-		this.dateDepart = dateDepart;
-	}
 		
+	}
+	
+	Employe(String nom, String password)
+	{
+		this.nom = nom;
+		this.password = password;
+	}
 
+		
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
 	 * passée en paramètre.
@@ -89,6 +113,10 @@ public class Employe implements Serializable, Comparable<Employe>
 		return prenom;
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	
 	/**
 	 * Change le prénom de l'employé.
 	 * @param prenom le nouveau prénom de l'employé. 
@@ -118,7 +146,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		this.mail = mail;
 	}
-
+	
 	/**
 	 * Retourne vrai ssi le password passé en paramètre est bien celui
 	 * de l'employé.
@@ -154,12 +182,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	
 	
 	public LocalDate getDate() {
-		return date;
+		return dateArriver;
 	}
 	
 	public void setDate(LocalDate date) throws dateInvalide{
 		if(date.isAfter(LocalDate.now())) throw new dateInvalide("Date dans le futur");
-		this.date = date;
+		this.dateArriver = date;
 	}
 	
 	public LocalDate getDateDepart() {
@@ -204,7 +232,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	@Override
 	public String toString()
 	{
-		String res = nom + " " + prenom + " " + mail +" "+date+" (";
+		String res = nom + " " + prenom + " " + mail +" "+dateArriver+" (";
 		if (estRoot())
 			res += "super-utilisateur";
 		else

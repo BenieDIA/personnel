@@ -1,9 +1,12 @@
 package personnel;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 /**
  * Gestion du personnel. Un seul objet de cette classe existe.
@@ -20,7 +23,7 @@ public class GestionPersonnel implements Serializable
 	private static final long serialVersionUID = -105283113987886425L;
 	private static GestionPersonnel gestionPersonnel = null;
 	private SortedSet<Ligue> ligues;
-	private Employe root = new Employe(this, null, "root", "", "", "toor", null,null );
+	private Employe root = addRoot("root", "toor");
 	public final static int SERIALIZATION = 1, JDBC = 2, 
 			TYPE_PASSERELLE = JDBC;  
 	private static Passerelle passerelle =  new jdbc.JDBC();
@@ -93,6 +96,14 @@ public class GestionPersonnel implements Serializable
 		ligues.add(ligue);
 		return ligue;
 	}
+	
+	
+	public Employe addRoot(String nom, String password)
+	{
+		Employe employe = new Employe(nom, password);
+		return employe;
+	}
+	 
 
 	void remove(Ligue ligue)
 	{
@@ -103,6 +114,13 @@ public class GestionPersonnel implements Serializable
 	{
 		return passerelle.insert(ligue);
 	}
+	
+	int insert(Employe employe) throws SauvegardeImpossible
+	{
+		return passerelle.insert(employe);
+	}
+	
+
 
 	/**
 	 * Retourne le root (super-utilisateur).

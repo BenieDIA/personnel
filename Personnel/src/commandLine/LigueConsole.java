@@ -118,7 +118,10 @@ public class LigueConsole
 						 System.out.println("date invalide: " + e.getMessage());
 					}	catch (DateTimeParseException d) {
 		                System.out.println("Format de date invalide: " + d.getMessage());
-		            }
+		            } catch (SauvegardeImpossible e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 		);
 	}
