@@ -14,15 +14,15 @@ import java.time.LocalDate;
 public class Employe implements Serializable, Comparable<Employe>
 {
 	private static final long serialVersionUID = 4795721718037994734L;
-	private int id = -1;
+	private int id = 1;
 	private String nom, prenom, password, mail;
-	private Ligue ligue;
-	private LocalDate dateArriver = LocalDate.now();	
-
+	private LocalDate dateArriver = LocalDate.now();
+	private int ligue_id;
 	private LocalDate dateDepart = null;
+	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
 	
-	Employe(GestionPersonnel gestionPersonnel, int id, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart)
+	Employe(GestionPersonnel gestionPersonnel, int id,Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart, int ligue_id)
 	{
 	    this.dateArriver = dateArriver;
 	    this.nom = nom;
@@ -32,12 +32,13 @@ public class Employe implements Serializable, Comparable<Employe>
 	    this.ligue = ligue;
 	    this.gestionPersonnel = gestionPersonnel;
 	    this.id = id;
+	    this.ligue_id = ligue.getLigueId();	
 	}
 	
 	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart, int ligue_id) throws SauvegardeImpossible
 	{
-	    this(gestionPersonnel, -1, ligue, nom, prenom, mail, password, dateArriver, dateDepart);
+	    this(gestionPersonnel, -1, ligue, nom, prenom, mail, password, dateArriver, dateDepart, ligue_id);
 	    this.id = gestionPersonnel.insert(this);
 	}
 	
@@ -88,6 +89,11 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @return le nom de l'employé. 
 	 */
 	
+	
+    public int getLigueId() {
+        return ligue_id;
+    }
+
 	public String getNom()
 	{
 		return nom;

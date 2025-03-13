@@ -100,15 +100,16 @@ public class JDBC implements Passerelle
 	{
 		try {
 			PreparedStatement instruction;
-			instruction = connection.prepareStatement("insert into employe (dateArriver, nom, prenom, mail, password) values(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+			instruction = connection.prepareStatement("insert into employe (dateArriver, nom, prenom, mail, password, ligue_id) values(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			instruction.setDate(1, java.sql.Date.valueOf(employe.getDate()));
 			instruction.setString(2, employe.getNom());
 			instruction.setString(3, employe.getPrenom());
 			instruction.setString(4, employe.getMail());
 			instruction.setString(5, employe.getPassword());
+			instruction.setInt(6, employe.getLigueId());
 			
 			instruction.executeUpdate();
-			ResultSet id = instruction.getGeneratedKeys();
+			ResultSet id = instruction.getGeneratedKeys();	
 			id.next();
 			return id.getInt(1);
 		}
