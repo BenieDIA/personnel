@@ -60,6 +60,7 @@ public class GestionPersonnel implements Serializable
 		}catch(SauvegardeImpossible e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	
@@ -130,6 +131,11 @@ public class GestionPersonnel implements Serializable
 	int insert(Employe employe) throws SauvegardeImpossible
 	{
 		return passerelle.insert(employe);
+	}
+	
+	int update(Ligue ligue) throws SauvegardeImpossible
+	{
+		return passerelle.update(ligue);
 	}
 	
 

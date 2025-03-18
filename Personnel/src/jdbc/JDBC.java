@@ -125,6 +125,24 @@ public class JDBC implements Passerelle
 		}
 		
 	}
+
+	@Override
+	public int update(Ligue ligue) throws SauvegardeImpossible {
+		
+		try {
+			PreparedStatement instruction;
+			instruction = connection.prepareStatement("update ligue set nom = ? where id = ?" , Statement.RETURN_GENERATED_KEYS);
+			instruction.setString(1, ligue.getNom());
+			instruction.setInt(2, ligue.getLigueId());
+			int update = instruction.executeUpdate(); // Exécute la mise à jour et retourne le nombre de lignes affectées
+			return update;
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new SauvegardeImpossible(e);
+		}
+	}
 	
 
 
