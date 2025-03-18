@@ -111,7 +111,7 @@ public class GestionPersonnel implements Serializable
 
 	public void addRoot(String nom, String password) throws SauvegardeImpossible {
 		
-        Employe employe = new Employe(this,null,nom, null, null,password, null,null,0);
+        Employe employe = new Employe(this,null,nom, null, null,password, null,null);
            this.root = employe;
    }
 	
@@ -138,6 +138,10 @@ public class GestionPersonnel implements Serializable
 		return passerelle.update(ligue);
 	}
 	
+	int update(Employe employe) throws SauvegardeImpossible
+	{
+		return passerelle.update(employe);
+	}
 
 
 	/**
