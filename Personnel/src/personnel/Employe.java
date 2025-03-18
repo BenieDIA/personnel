@@ -17,49 +17,40 @@ public class Employe implements Serializable, Comparable<Employe>
 	private int id = 1;
 	private String nom, prenom, password, mail;
 	private LocalDate dateArriver = LocalDate.now();
-	private int ligue_id;
 	private LocalDate dateDepart = null;
 	private Ligue ligue;
+	private int ligue_id;
 	private GestionPersonnel gestionPersonnel;
 	
-	Employe(GestionPersonnel gestionPersonnel, int id,Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart, int ligue_id)
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) 
 	{
 	    this.dateArriver = dateArriver;
+	    this.dateDepart = dateDepart;
 	    this.nom = nom;
 	    this.prenom = prenom;
 	    this.password = password;
 	    this.mail = mail;
 	    this.ligue = ligue;
 	    this.gestionPersonnel = gestionPersonnel;
-	    this.id = id;
-	    this.ligue_id = ligue.getLigueId();	
-	}
-	
-	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart, int ligue_id) throws SauvegardeImpossible
-	{
-	    this(gestionPersonnel, -1, ligue, nom, prenom, mail, password, dateArriver, dateDepart, ligue_id);
-	    this.id = gestionPersonnel.insert(this);
-	}
-	
-	Employe(GestionPersonnel gestionPersonnel,int id,LocalDate dateArriver,String nom, String prenom, String mail, String password)
-	{
-		this.dateArriver = dateArriver;
-		this.gestionPersonnel = gestionPersonnel;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.password = password;
-		this.mail = mail;
-		
-	}
-	
-	Employe(String nom, String password)
-	{
-		this.nom = nom;
-		this.password = password;
+	    this.ligue_id = ligue.getLigueId();
 	}
 
-		
+	Employe(GestionPersonnel gestionPersonnel,int id,String nom, String prenom, String mail, String password)
+    {
+        this.id = id;
+        this.gestionPersonnel = gestionPersonnel;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.password = password;
+        this.mail = mail;
+    }
+	
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart, int ligue_id) throws SauvegardeImpossible
+    {
+        this(gestionPersonnel, -1, nom, prenom, mail, password);
+        this.id = gestionPersonnel.insert(this);
+    }
+	 
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
 	 * passée en paramètre.
@@ -89,11 +80,20 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @return le nom de l'employé. 
 	 */
 	
+	public int getId() {
+		return id;
+	}
 	
-    public int getLigueId() {
-        return ligue_id;
-    }
-
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
+	
+	public int getLigueId() {
+		return ligue_id;
+	}
+	
 	public String getNom()
 	{
 		return nom;

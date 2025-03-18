@@ -1,6 +1,7 @@
 package personnel;
 
 import java.io.Serializable;
+import java.lang.classfile.Instruction;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -23,7 +24,7 @@ public class GestionPersonnel implements Serializable
 	private static final long serialVersionUID = -105283113987886425L;
 	private static GestionPersonnel gestionPersonnel = null;
 	private SortedSet<Ligue> ligues;
-	private Employe root = addRoot("root", "toor");
+	private Employe root;
 	public final static int SERIALIZATION = 1, JDBC = 2, 
 			TYPE_PASSERELLE = JDBC;  
 	private static Passerelle passerelle =  new jdbc.JDBC();
@@ -45,13 +46,22 @@ public class GestionPersonnel implements Serializable
 		return gestionPersonnel;
 	}
 
+
 	public GestionPersonnel()
 	{
 		if (gestionPersonnel != null)
 			throw new RuntimeException("Vous ne pouvez créer qu'une seuls instance de cet objet.");
 		ligues = new TreeSet<>();
 		gestionPersonnel = this;
+		
+		try {
+			addRoot("root","toor");
+			
+		}catch(SauvegardeImpossible e) {
+			e.printStackTrace();
+		}
 	}
+	
 	
 	public void sauvegarder() throws SauvegardeImpossible
 	{
@@ -97,18 +107,20 @@ public class GestionPersonnel implements Serializable
 		return ligue;
 	}
 	
+
+	public void addRoot(String nom, String password) throws SauvegardeImpossible {
+		
+        Employe employe = new Employe(this,null,nom, null, null,password, null,null,0);
+           this.root = employe;
+   }
 	
-	public Employe addRoot(String nom, String password)
-	{
-		Employe employe = new Employe(nom, password);
-		return employe;
-	}
-	 
 
 	void remove(Ligue ligue)
 	{
 		ligues.remove(ligue);
 	}
+	
+	
 	
 	int insert(Ligue ligue) throws SauvegardeImpossible
 	{
