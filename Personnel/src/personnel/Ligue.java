@@ -81,7 +81,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	}
 	
 	
-	public int getLigueId() {
+	public int getId() {
 		
 		return id;
 	}

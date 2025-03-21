@@ -91,15 +91,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @throws SauvegardeImpossible 
 	 */
 	
-	public void setNom(String nom)
+	public void setNom(String nom) throws SauvegardeImpossible
 	{
 		this.nom = nom;
-		try {
+
 			this.id = gestionPersonnel.update(this);
-		} catch (SauvegardeImpossible e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	/**
@@ -122,15 +119,11 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @throws SauvegardeImpossible 
 	 */
 
-	public void setPrenom(String prenom)
+	public void setPrenom(String prenom) throws SauvegardeImpossible
 	{
 		this.prenom = prenom;
-		try {
 			this.id = gestionPersonnel.update(this);
-		} catch (SauvegardeImpossible e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 	}
 
 	/**
@@ -149,15 +142,11 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @throws SauvegardeImpossible 
 	 */
 
-	public void setMail(String mail)
+	public void setMail(String mail) throws SauvegardeImpossible
 	{
 		this.mail = mail;
-		try {
 			this.id = gestionPersonnel.update(this);
-		} catch (SauvegardeImpossible e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 	}
 	
 	/**
@@ -179,15 +168,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @throws SauvegardeImpossible 
 	 */
 	
-	public void setPassword(String password)
+	public void setPassword(String password) throws SauvegardeImpossible
 	{
 		this.password= password;
-		try {
+
 			this.id = gestionPersonnel.update(this);
-		} catch (SauvegardeImpossible e) {
 	
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -205,14 +191,11 @@ public class Employe implements Serializable, Comparable<Employe>
 		return dateArriver;
 	}
 	
-	public void setDate(LocalDate dateArriver) throws dateInvalide{
+	public void setDate(LocalDate dateArriver) throws dateInvalide, SauvegardeImpossible{
 		if(dateArriver.isAfter(LocalDate.now())) throw new dateInvalide("Date dans le futur");
 		this.dateArriver = dateArriver;
-		try {
 			this.id = gestionPersonnel.update(this);
-		} catch (SauvegardeImpossible e) {
-			e.printStackTrace();
-		}
+
 	}
 	
 	public LocalDate getDateDepart() {

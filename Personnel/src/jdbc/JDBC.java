@@ -59,6 +59,12 @@ public class JDBC implements Passerelle
             	  String password = rootResultat.getString("password");
                   gestionPersonnel.addRoot(id,nom,password);
               }
+              
+              String requeteEmploye = "SELECT * FROM employe JOIN ligue ON ligue.id= ligue_id; ";
+  			Statement instructionEmploye = connection.createStatement();
+  			ResultSet employe = instruction.executeQuery(requete);
+  		
+   
 		}
 		
 		catch (SQLException e)
@@ -120,7 +126,7 @@ public class JDBC implements Passerelle
     {
         try {
 
-        	PreparedStatement instruction = connection.prepareStatement("insert into employe (dateArriver, nom, prenom, mail, password, ligue_id) values(?,?,?,?,?,?) ", Statement.RETURN_GENERATED_KEYS);
+        	PreparedStatement instruction = connection.prepareStatement("insert into employe (dateArriver, nom, prenom, mail, password, ligue_id )  values(?,?,?,?,?,?) ", Statement.RETURN_GENERATED_KEYS);
         	if (employe.getDate() != null) {
         	    instruction.setDate(1, java.sql.Date.valueOf(employe.getDate()));
         	} else {
@@ -134,7 +140,7 @@ public class JDBC implements Passerelle
         	if (employe.getLigue()==null) {
                 instruction.setNull(6, java.sql.Types.INTEGER);
             } else {
-                instruction.setInt(6, employe.getLigue().getLigueId());
+                instruction.setInt(6, employe.getLigue().getId());
             }
         	
         	instruction.executeUpdate();
@@ -158,7 +164,7 @@ public class JDBC implements Passerelle
 			PreparedStatement instruction;
 			instruction = connection.prepareStatement("update ligue set nom = ? where id = ?" , Statement.RETURN_GENERATED_KEYS);
 			instruction.setString(1, ligue.getNom());
-			instruction.setInt(2, ligue.getLigueId());
+			instruction.setInt(2, ligue.getId());
 			int update = instruction.executeUpdate(); // Exécute la mise à jour et retourne le nombre de lignes affectées
 			return update;
 			
