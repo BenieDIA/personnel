@@ -21,10 +21,10 @@ public class GestionPersonnel implements Serializable
 	private static final long serialVersionUID = -105283113987886425L;
 	private static GestionPersonnel gestionPersonnel = null;
 	private SortedSet<Ligue> ligues;
-	private Employe root = new Employe(this, null, "root", "", "", "toor", LocalDate.now(),null);/*benie*/
+	private Employe root;
 	public final static int SERIALIZATION = 1, JDBC = 2, 
-			TYPE_PASSERELLE = SERIALIZATION;  
-	private static Passerelle passerelle = TYPE_PASSERELLE == JDBC ? new jdbc.JDBC() : new serialisation.Serialization();	
+			TYPE_PASSERELLE = JDBC;  
+	private static Passerelle passerelle = new jdbc.JDBC() ;	
 	
 	/**
 	 * Retourne l'unique instance de cette classe.
@@ -40,6 +40,7 @@ public class GestionPersonnel implements Serializable
 			gestionPersonnel = passerelle.getGestionPersonnel();
 			if (gestionPersonnel == null)
 				gestionPersonnel = new GestionPersonnel();
+		
 			
 		}
 		return gestionPersonnel;
@@ -51,6 +52,14 @@ public class GestionPersonnel implements Serializable
 			throw new RuntimeException("Vous ne pouvez créer qu'une seuls instance de cet objet.");
 		ligues = new TreeSet<>();
 		gestionPersonnel = this;
+		
+		try {
+			addRoot("root","toor");
+		} catch (SauvegardeImpossible e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	public void sauvegarder() throws SauvegardeImpossible
@@ -106,7 +115,31 @@ public class GestionPersonnel implements Serializable
 	{
 		return passerelle.insert(ligue);
 	}
+	public int insert(Employe employe) throws SauvegardeImpossible
+	{
+		
+		return passerelle.insert(employe);
+	}
+	public int update(Employe employe) throws SauvegardeImpossible {
+		return passerelle.update(employe);
+	}
+	public int update(Ligue ligue) throws SauvegardeImpossible {
+		return passerelle.update(ligue);
+	}
 
+	public void addRoot(String nom, String password) throws SauvegardeImpossible {
+		  if (this.root == null) {
+		        this.root = new Employe(this,null, -1, nom, null, null, password);
+		    }
+       }
+	
+	public void addRoot(int id,String nom, String password) throws SauvegardeImpossible {
+		  if (this.root == null) {
+		        this.root = new Employe(this,null, id, nom, null, null, password);
+		        passerelle.insert(root);
+		    }
+		  
+     }
 	/**
 	 * Retourne le root (super-utilisateur).
 	 * @return le root.

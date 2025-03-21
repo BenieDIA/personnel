@@ -8,7 +8,7 @@ import static commandLineMenus.rendering.examples.util.InOut.getString;
 import java.util.ArrayList;
 
 import commandLineMenus.List;
-import commandLineMenus.ListOption;
+
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
 
@@ -110,11 +110,16 @@ public class LigueConsole
 						
 						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 					    LocalDate date = LocalDate.parse(dateStr, formatter);
-						ligue.addEmploye(getString("nom : "), 
-							getString("prenom : "), getString("mail : "), 
-							getString("password : "), 
-							date, 
-							null);		    
+						try {
+							ligue.addEmploye(getString("nom : "), 
+								getString("prenom : "), getString("mail : "), 
+								getString("password : "), 
+								date, 
+								null);
+						} catch (SauvegardeImpossible e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}		    
 					} catch (datesInvalides e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

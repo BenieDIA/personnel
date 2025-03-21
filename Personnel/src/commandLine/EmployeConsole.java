@@ -37,6 +37,7 @@ public class EmployeConsole
 	}
 	Option Modifier(Employe employe)
 	{
+		
 			Menu menu = new Menu("Modifier " + employe.getNom(), "m");
 			menu.add(afficher(employe));
 			menu.add(changerNom(employe));
@@ -81,7 +82,7 @@ public class EmployeConsole
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		        LocalDate date = LocalDate.parse(dateStr, formatter);
 	        	DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				employe.setDateInscription(date);
+				employe.setDateinscription(date);
 			} catch (datesInvalides e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

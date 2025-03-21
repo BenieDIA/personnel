@@ -56,11 +56,17 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	/**
 	 * Change le nom.
 	 * @param nom le nouveau nom de la ligue.
+	 * @throws SauvegardeImpossible 
 	 */
 
-	public void setNom(String nom)
+	public void setNom(String nom) 
 	{
 		this.nom = nom;
+		try {
+			this.id = gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -108,20 +114,15 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @param password le password de l'employé.
 	 * @return l'employé créé. 
 	 * @throws datesInvalides 
+	 * @throws SauvegardeImpossible 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart) throws datesInvalides
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart) throws datesInvalides, SauvegardeImpossible
 	{
-		
-		
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Dateinscription, Depart);/*benie*/
-		employe.setDateInscription(Dateinscription);
+		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Dateinscription,Depart);
+		employe.setDateinscription(Dateinscription);
 		employes.add(employe);
-		return employe;
-		
-		
-		
-		
+		return employe;	
 	}
 	
 	public void remove(Employe employe) throws datesInvalides
@@ -139,7 +140,9 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	
 	public void remove()
 	{
+		
 		gestionPersonnel.remove(this);
+		
 	}
 	
 
@@ -153,6 +156,10 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	public String toString()
 	{
 		return nom;
+	}
+	
+	public int getLigueId() {
+		return id;
 	}
 
 	

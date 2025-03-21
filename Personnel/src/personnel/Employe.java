@@ -1,6 +1,10 @@
 package personnel;
+
 import java.io.Serializable;
+import java.sql.ResultSet;
+
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 
 /**
  * Employé d'une ligue hébergée par la M2L. Certains peuvent 
@@ -13,57 +17,64 @@ import java.time.LocalDate;
 public class Employe implements Serializable, Comparable<Employe>
 {
 	private static final long serialVersionUID = 4795721718037994734L;
+	private int id = 1;
 	private String nom, prenom, password, mail;
+	private LocalDate Dateinscription = LocalDate.now();
+	private LocalDate Depart = null;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
-	private LocalDate Dateinscription;
-	private LocalDate depart =  null;
 	
+	Employe(GestionPersonnel gestionPersonnel, int id, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
+    {
 	
-	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate depart)
-	{
-		this.gestionPersonnel = gestionPersonnel;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.password = password;
-		this.mail = mail;
-		this.ligue = ligue;
-		this.Dateinscription = Dateinscription;
-		this.depart = depart;
-		
-	 	 /* ajout de Benie*/
-	}
-	public LocalDate getDateinscription(){/* ajout de Benie*/
-		
-		return Dateinscription;
-		
-	}
-	public void setDateInscription(LocalDate Dateinscription) throws datesInvalides{
-		if(Dateinscription.isAfter(LocalDate.now())){
-			throw new datesInvalides("date invalide: date dans le futur");
-		}
-		this.Dateinscription = Dateinscription;
-		
-	}
-	public LocalDate getDepart() {
-		return depart;
-	}
-	
-	
-	public void setDepart(LocalDate depart) throws datesInvalides {
-		
-        if(depart.isAfter(LocalDate.now()))	
-			throw new datesInvalides("date invalide: date dans le futur");
-        if(depart.isBefore(Dateinscription))		
-			throw new datesInvalides("La date de depart ne peut pas etre avant la date d'inscription");
+        this.Dateinscription = Dateinscription;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.password = password;
+        this.mail = mail;
+        this.gestionPersonnel = gestionPersonnel;
         
-        this.depart = depart;	
-        
+    }
 
-	
-	}
-	
-	
+
+
+
+    Employe(GestionPersonnel gestionPersonnel, int id, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
+    {
+
+        this.gestionPersonnel = gestionPersonnel;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.password = password;
+        this.mail = mail;
+        this.ligue = ligue;
+        this.Dateinscription = Dateinscription;
+        this.Depart = Depart;
+
+    }
+
+    Employe(GestionPersonnel gestionPersonnel,Ligue ligue,int id,String nom, String prenom, String mail, String password)
+    {
+    	
+    
+    	this.ligue = ligue;
+        this.id = id;
+        this.gestionPersonnel = gestionPersonnel;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.password = password;
+        this.mail = mail;
+    
+
+    }
+
+    Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart) throws SauvegardeImpossible
+    {
+        this(gestionPersonnel,ligue, -1, nom, prenom, mail, password);
+        this.id = gestionPersonnel.insert(this);
+        
+    }
+		
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
 	 * passée en paramètre.
@@ -94,6 +105,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	 */
 	
 	
+  
 	public String getNom()
 	{
 		return nom;
@@ -107,6 +119,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setNom(String nom)
 	{
 		this.nom = nom;
+		try {
+			this.id = gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -119,6 +137,10 @@ public class Employe implements Serializable, Comparable<Employe>
 		return prenom;
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	
 	/**
 	 * Change le prénom de l'employé.
 	 * @param prenom le nouveau prénom de l'employé. 
@@ -127,6 +149,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setPrenom(String prenom)
 	{
 		this.prenom = prenom;
+		try {
+			this.id = gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -147,8 +175,14 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setMail(String mail)
 	{
 		this.mail = mail;
+		try {
+			this.id = gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
+	
 	/**
 	 * Retourne vrai ssi le password passé en paramètre est bien celui
 	 * de l'employé.
@@ -170,6 +204,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setPassword(String password)
 	{
 		this.password= password;
+		try {
+			this.id = gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -181,11 +221,41 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return ligue;
 	}
+	
+	
+	public LocalDate getDepart() {
+		return Depart;
+	}
+	
+	public void setDateinscription(LocalDate Dateinscription) throws datesInvalides{
+		if(Dateinscription.isAfter(LocalDate.now())) throw new datesInvalides("Date dans le futur");
+		this.Dateinscription = Dateinscription;
+	}
+	
+	
+	public void setDepart(LocalDate Depart) throws datesInvalides {
+		if(Depart.isAfter(LocalDate.now())) throw new datesInvalides("Date dans le futur");
+		if(Depart.isBefore(getDateinscription())) throw new datesInvalides("Date depart ne peut pas etre avant la date d'inscription");
+	
+			this.Depart = Depart;
+			try {
+				this.id = gestionPersonnel.update(this);
+			} catch (SauvegardeImpossible e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	
+
+	public LocalDate getDateinscription() {
+	
+		return Dateinscription;
+	}
+
 
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
-	 * @throws datesInvalides 
 	 */
 	
 	public void remove() throws datesInvalides
@@ -212,13 +282,30 @@ public class Employe implements Serializable, Comparable<Employe>
 	
 	@Override
 	public String toString()
+
 	{
-		String res = nom + " " + prenom + " " + mail + " Date d'inscription :" + Dateinscription + " (" ;
-		if (estRoot())
-			res += "super-utilisateur";
-		else
-			res += ligue.toString();
-		return res + ")";
+
+	String res = nom + " " + prenom + " " + mail +" "+Dateinscription+" (";
+
+	if (estRoot())
+
+	res += "super-utilisateur";
+
+	else
+
+	res += ligue.toString();
+
+	return res + ")";
+
 	}
+
+	public void setId(int id) {
+        this.id = id;
+    }	
+	public int getId() {
+		return id;
+	}
+	
+
 
 }
