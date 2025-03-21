@@ -3,23 +3,21 @@ package commandLine;
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
 
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-
 import commandLineMenus.List;
-import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
-import commandLineMenus.examples.employees.core.Employee;
 import personnel.*;
 
 public class LigueConsole 
 {
 	private GestionPersonnel gestionPersonnel;
 	private EmployeConsole employeConsole;
-	private Ligue ligue;
+
 
 	public LigueConsole(GestionPersonnel gestionPersonnel, EmployeConsole employeConsole)
 	{

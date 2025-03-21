@@ -1,13 +1,13 @@
 package jdbc;
 
 import java.sql.Connection;
-
-
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 
 import personnel.Employe;
 import personnel.GestionPersonnel;
@@ -47,18 +47,21 @@ public class JDBC implements Passerelle
 			ResultSet ligues = instruction.executeQuery(requete);
 			while (ligues.next())
 				gestionPersonnel.addLigue(ligues.getInt(1), ligues.getString(2));
-			  String requeteRoot = "SELECT * FROM employe WHERE ligue_id IS NULL";
+			
+		
+			// lecture Root
+			  String requeteRoot = "SELECT * FROM employe WHERE nom = 'root'";
               Statement instructionRoot = connection.createStatement();
               ResultSet rootResultat = instructionRoot.executeQuery(requeteRoot);
               if (rootResultat.next()) {
-                  gestionPersonnel.addRoot(
-                      rootResultat.getString("nom"),
-                      rootResultat.getString("password")
-                  );
+            	  int id = rootResultat.getInt("id");
+            	  String nom = rootResultat.getString("nom");
+            	  String password = rootResultat.getString("password");
+                  gestionPersonnel.addRoot(id,nom,password);
               }
 		}
 		
-		catch (SQLException | SauvegardeImpossible e)
+		catch (SQLException e)
 		{
 			System.out.println(e);
 		}
@@ -117,20 +120,22 @@ public class JDBC implements Passerelle
     {
         try {
 
-            PreparedStatement instruction;
-            instruction = connection.prepareStatement("insert into employe (dateArriver, nom, prenom, mail, password) values(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            instruction.setDate(1, java.sql.Date.valueOf(employe.getDate()));
-            instruction.setString(2, employe.getNom());
-            instruction.setString(3, employe.getPrenom());
-            instruction.setString(4, employe.getMail());
-            instruction.setString(5, employe.getPassword());
-     
-            instruction.executeUpdate();
+        	PreparedStatement instruction = connection.prepareStatement("insert into employe (dateArriver, nom, prenom, mail, password) values(?,?,?,?,?) ", Statement.RETURN_GENERATED_KEYS);
+        	if (employe.getDate() != null) {
+        	    instruction.setDate(1, java.sql.Date.valueOf(employe.getDate()));
+        	} else {
+        	    instruction.setNull(1, java.sql.Types.DATE);
+        	}      
+        	
+        	instruction.setString(2, employe.getNom());
+        	instruction.setString(3, employe.getPrenom());
+        	instruction.setString(4, employe.getMail());
+        	instruction.setString(5, employe.getPassword());
+        	
+        	instruction.executeUpdate();
             ResultSet id = instruction.getGeneratedKeys();
             id.next();
-            return id.getInt(1);
-
-
+                return id.getInt(1);
         }
         catch(SQLException exception){
 

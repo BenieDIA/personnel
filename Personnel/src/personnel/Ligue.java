@@ -44,6 +44,11 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		this.id = id;
 	}
 
+	public Ligue(int id, String nom) {
+		this.nom = nom;
+		this.id = id;
+	}
+
 	/**
 	 * Retourne le nom de la ligue.
 	 * @return le nom de la ligue.
@@ -77,6 +82,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	
 	
 	public int getLigueId() {
+		
 		return id;
 	}
 
@@ -117,10 +123,10 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @throws SauvegardeImpossible 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate date, LocalDate dateDepart) throws dateInvalide, SauvegardeImpossible
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws dateInvalide, SauvegardeImpossible
 	{
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, date, null);
-		employe.setDate(date);
+		Employe employe = new Employe(this.gestionPersonnel, id, this, nom, prenom, mail, password, dateArriver, dateDepart);
+		employe.setDate(dateArriver);
 		employes.add(employe);
 		return employe;
 	}

@@ -14,46 +14,35 @@ import java.time.LocalDate;
 public class Employe implements Serializable, Comparable<Employe>
 {
 	private static final long serialVersionUID = 4795721718037994734L;
-	private int id = 1;
+	private int id = -1;
 	private String nom, prenom, password, mail;
 	private LocalDate dateArriver = LocalDate.now();
 	private LocalDate dateDepart = null;
 	private Ligue ligue;
-	private int ligue_id;
 	private GestionPersonnel gestionPersonnel;
 	
-	Employe(GestionPersonnel gestionPersonnel, int id,Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver,LocalDate dateDepart, int ligue_id)
+	
+	Employe(GestionPersonnel gestionPersonnel, int id,Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart)
     {
-        this.dateArriver = dateArriver;
+		this.id = id;
+        this.dateArriver =dateArriver;
+        this.dateDepart = dateDepart;
         this.nom = nom;
         this.prenom = prenom;
         this.password = password;
         this.mail = mail;
         this.ligue = ligue;
         this.gestionPersonnel = gestionPersonnel;
-        this.ligue_id = ligue.getLigueId();    
-        
     }
-    
+		
 
-    
-    Employe(GestionPersonnel gestionPersonnel,int id,String nom, String prenom, String mail, String password)
+
+    Employe(GestionPersonnel gestionPersonnel,Ligue ligue,String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible
     {
-        this.id = id;
-        this.gestionPersonnel = gestionPersonnel;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.password = password;
-        this.mail = mail;
-        
-    }
-    
-    Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible
-    {
-        this(gestionPersonnel, -1, nom, prenom, mail, password);
+        this(gestionPersonnel, -1,ligue, nom, prenom, mail, password, dateArriver, dateDepart);
         this.id = gestionPersonnel.insert(this);
     }
-	 
+    
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
 	 * passée en paramètre.
@@ -62,9 +51,8 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @param ligue la ligue pour laquelle on souhaite vérifier si this 
 	 * est l'admininstrateur.
 	 */
-	
 	public boolean estAdmin(Ligue ligue)
-	{
+	{ 
 		return ligue.getAdministrateur() == this;
 	}
 	
@@ -90,13 +78,6 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
-	
-	public int getLigueId() {
-		return ligue_id;
-	}
-	
 	
 	
 	public String getNom()
@@ -224,9 +205,9 @@ public class Employe implements Serializable, Comparable<Employe>
 		return dateArriver;
 	}
 	
-	public void setDate(LocalDate date) throws dateInvalide{
-		if(date.isAfter(LocalDate.now())) throw new dateInvalide("Date dans le futur");
-		this.dateArriver = date;
+	public void setDate(LocalDate dateArriver) throws dateInvalide{
+		if(dateArriver.isAfter(LocalDate.now())) throw new dateInvalide("Date dans le futur");
+		this.dateArriver = dateArriver;
 		try {
 			this.id = gestionPersonnel.update(this);
 		} catch (SauvegardeImpossible e) {

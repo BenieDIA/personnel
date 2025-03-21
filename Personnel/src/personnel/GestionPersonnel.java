@@ -1,13 +1,13 @@
 package personnel;
 
 import java.io.Serializable;
-import java.lang.classfile.Instruction;
-import java.time.LocalDate;
+
+
+
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 /**
  * Gestion du personnel. Un seul objet de cette classe existe.
@@ -111,9 +111,16 @@ public class GestionPersonnel implements Serializable
 
 	public void addRoot(String nom, String password) throws SauvegardeImpossible {
 		
-        Employe employe = new Employe(this,null,nom, null, null,password, null,null);
+        Employe employe = new Employe(this, null, nom, null, null,password,null, null);
            this.root = employe;
    }
+	
+
+	public void addRoot(int id, String nom, String password) {
+		
+		Employe employe = new Employe(this, id,null,nom,null,null,password,null,null);
+		this.root=employe;
+	}
 	
 
 	void remove(Ligue ligue)
