@@ -101,6 +101,7 @@ public class GestionPersonnel implements Serializable
 		return ligue;
 	}
 	
+	
 	public Ligue addLigue(int id, String nom)
 	{
 		Ligue ligue = new Ligue(this, id, nom);
@@ -110,9 +111,11 @@ public class GestionPersonnel implements Serializable
 	
 
 	public void addRoot(String nom, String password) throws SauvegardeImpossible {
-		
-        Employe employe = new Employe(this, null, nom, null, null,password,null, null);
-           this.root = employe;
+
+			 Employe employe = new Employe(this, null, nom, null, null,password,null, null);
+	         this.root = employe;
+	
+       
    }
 	
 
