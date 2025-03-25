@@ -106,9 +106,11 @@ public class GestionPersonnel implements Serializable
 		return ligue;
 	}
 
-	public void remove(Ligue ligue)
+	public void remove(Ligue ligue) throws SauvegardeImpossible
 	{
 		ligues.remove(ligue);
+		passerelle.delete(ligue);
+		
 	}
 	
 	int insert(Ligue ligue) throws SauvegardeImpossible
@@ -125,6 +127,9 @@ public class GestionPersonnel implements Serializable
 	}
 	public int update(Ligue ligue) throws SauvegardeImpossible {
 		return passerelle.update(ligue);
+	}
+	public int delete(Ligue ligue) throws SauvegardeImpossible {
+		return passerelle.delete(ligue);
 	}
 
 	public void addRoot(String nom, String password) throws SauvegardeImpossible {

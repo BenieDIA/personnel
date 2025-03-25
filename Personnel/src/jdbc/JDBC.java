@@ -1,3 +1,4 @@
+
 package jdbc;
 
 import java.sql.DriverManager;
@@ -134,6 +135,7 @@ public class JDBC implements Passerelle
 		}
 		
 	}
+	@Override 
 
 	public int update(Employe employe) throws SauvegardeImpossible {
 	    try {
@@ -171,6 +173,28 @@ public class JDBC implements Passerelle
 	        }
 	
 	        }
+	
+	@Override 
+	
+	
+	public int delete(Ligue ligue) throws SauvegardeImpossible 
+	{
+		try 
+		{
+			
+			PreparedStatement instruction;
+			instruction = connection.prepareStatement("DELETE ligue, employe FROM ligue LEFT JOIN employe ON employe.ligue_id = ligue.id WHERE ligue.id = ?;", Statement.RETURN_GENERATED_KEYS);
+			instruction.setInt(1, ligue.getLigueId());	
+			int delete = instruction.executeUpdate();
+			return delete;
+		
+		} 
+		catch (SQLException exception) 
+		{
+			exception.printStackTrace();
+			throw new SauvegardeImpossible(exception);
+		}		
+	}
 	
 	
 

@@ -19,7 +19,9 @@ public class PersonnelConsole
 	
 	public void start()
 	{
+		
 		menuPrincipal().start();
+		
 	}
 	
 	private Menu menuPrincipal()
