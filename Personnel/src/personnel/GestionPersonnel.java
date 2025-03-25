@@ -1,9 +1,7 @@
 package personnel;
 
 import java.io.Serializable;
-
-
-
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -117,7 +115,7 @@ public class GestionPersonnel implements Serializable
    }
 	
 
-	public void addRoot(int id, String nom, String password) {
+	public void addRoot(int id, String nom,  String password) {
 		
 		Employe employe = new Employe(this, id,null,nom,null,null,password,null,null);
 		this.root=employe;
@@ -154,6 +152,11 @@ public class GestionPersonnel implements Serializable
 	int delete(Ligue ligue)throws SauvegardeImpossible
 	{
 		return passerelle.delete(ligue);
+	}
+	
+	int delete(Employe employe)throws SauvegardeImpossible
+	{
+		return passerelle.delete(employe);
 	}
 
 	/**

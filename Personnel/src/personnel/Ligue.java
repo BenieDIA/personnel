@@ -131,9 +131,9 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		return employe;
 	}
 	
-	void remove(Employe employe) throws dateInvalide
+	void remove(Employe employe) throws dateInvalide, SauvegardeImpossible
 	{
-		employes.remove(employe);
+		gestionPersonnel.delete(employe);
 		employe.setDateDepart(LocalDate.now());
 	}
 	

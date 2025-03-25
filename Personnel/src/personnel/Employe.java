@@ -213,9 +213,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
+	 * @throws SauvegardeImpossible 
 	 */
 	
-	public void remove() throws dateInvalide
+	public void remove() throws dateInvalide, SauvegardeImpossible
 	{
 		Employe root = gestionPersonnel.getRoot();
 		if (this != root)

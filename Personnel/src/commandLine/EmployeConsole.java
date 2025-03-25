@@ -62,7 +62,12 @@ public class EmployeConsole
 	private Option supprimer(Employe employe)
 	{
 		return new Option("Supprimer", "v", () -> {try {
-			employe.remove();
+			try {
+				employe.remove();
+			} catch (SauvegardeImpossible e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (dateInvalide e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
