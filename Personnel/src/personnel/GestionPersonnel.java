@@ -114,8 +114,6 @@ public class GestionPersonnel implements Serializable
 
 			 Employe employe = new Employe(this, null, nom, null, null,password,null, null);
 	         this.root = employe;
-	
-       
    }
 	
 
@@ -153,6 +151,10 @@ public class GestionPersonnel implements Serializable
 		return passerelle.update(employe);
 	}
 
+	int delete(Ligue ligue)throws SauvegardeImpossible
+	{
+		return passerelle.delete(ligue);
+	}
 
 	/**
 	 * Retourne le root (super-utilisateur).

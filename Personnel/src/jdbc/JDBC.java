@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mysql.cj.protocol.x.StatementExecuteOkMessageListener;
 
 import personnel.Employe;
 import personnel.GestionPersonnel;
@@ -60,7 +61,7 @@ public class JDBC implements Passerelle
                   gestionPersonnel.addRoot(id,nom,password);
               }
               
-              String requeteEmploye = "SELECT * FROM employe JOIN ligue ON ligue.id= ligue_id; ";
+             String requeteEmploye = "SELECT * FROM employe JOIN ligue ON ligue.id= ligue_id; ";
   			Statement instructionEmploye = connection.createStatement();
   			ResultSet employe = instruction.executeQuery(requete);
   		
@@ -142,7 +143,6 @@ public class JDBC implements Passerelle
             } else {
                 instruction.setInt(6, employe.getLigue().getId());
             }
-        	
         	instruction.executeUpdate();
             ResultSet id = instruction.getGeneratedKeys();
             id.next();
@@ -196,6 +196,30 @@ public class JDBC implements Passerelle
 		}
 
 	}
+
+	@Override
+	public int delete(Ligue ligue) throws SauvegardeImpossible {
+
+		try {
+			PreparedStatement instruction;
+			
+			instruction = connection.prepareStatement("delete ligue, employe from ligue LEFT JOIN employe ON employe.ligue_id = ligue.id where ligue.id = ? ", Statement.RETURN_GENERATED_KEYS);
+			instruction.setInt(1, ligue.getId());
+			int delete = instruction.executeUpdate();
+			return delete;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			throw new SauvegardeImpossible(e);
+		}
+	
+
+	}
+		
+
+
+
 	
 
 
