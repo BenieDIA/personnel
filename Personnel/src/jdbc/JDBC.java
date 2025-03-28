@@ -119,7 +119,7 @@ public class JDBC implements Passerelle
 		        } else {
 		            instruction.setInt(6, employe.getLigue().getLigueId());
 		        }
-			System.out.println("Ajout de l'employé : " + employe.getNom() + " | Ligue ID : " + (employe.getLigue() != null ? employe.getLigue().getLigueId() : "NULL"));
+
 			instruction.executeUpdate();
 			ResultSet id = instruction.getGeneratedKeys();
 			id.next();
