@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 import com.mysql.cj.protocol.x.StatementExecuteOkMessageListener;
 
@@ -51,7 +52,7 @@ public class JDBC implements Passerelle
 			
 		
 			// lecture Root
-			  String requeteRoot = "SELECT * FROM employe WHERE nom = 'root'";
+			  String requeteRoot = "SELECT * FROM employe WHERE ligue_id IS NULL";
               Statement instructionRoot = connection.createStatement();
               ResultSet rootResultat = instructionRoot.executeQuery(requeteRoot);
               if (rootResultat.next()) {
@@ -62,7 +63,19 @@ public class JDBC implements Passerelle
               }
               
               
-            
+              // Charger les employés
+              String requeteEmployes = "SELECT * FROM employe";
+              Statement instructionEmployes = connection.createStatement();
+              ResultSet resultEmployes = instructionEmployes.executeQuery(requeteEmployes);
+              while (resultEmployes.next()) {
+                  int id = resultEmployes.getInt("id");
+                  String nom = resultEmployes.getString("nom");
+                  String prenom = resultEmployes.getString("prenom");
+                  String mail = resultEmployes.getString("mail");
+                  String password = resultEmployes.getString("password");
+    
+              
+		}
 		}
 		
 		catch (SQLException e)
@@ -233,11 +246,6 @@ public class JDBC implements Passerelle
 		}
 		
 	}
-		
-
-
-
-	
 
 
 }

@@ -40,6 +40,15 @@ public class GestionPersonnel implements Serializable
 			gestionPersonnel = passerelle.getGestionPersonnel();
 			if (gestionPersonnel == null)
 				gestionPersonnel = new GestionPersonnel();
+			
+			try {
+				if (gestionPersonnel.getRoot() == null) {
+					//Initialiser root seulement s'il n'existe pas
+					gestionPersonnel.addRoot("root", "toor");
+				}	
+			} catch (SauvegardeImpossible e) {
+				e.printStackTrace();
+			}
 		}
 		return gestionPersonnel;
 	}
