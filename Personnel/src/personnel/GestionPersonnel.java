@@ -40,7 +40,22 @@ public class GestionPersonnel implements Serializable
 			gestionPersonnel = passerelle.getGestionPersonnel();
 			if (gestionPersonnel == null)
 				gestionPersonnel = new GestionPersonnel();
+		//ici gérer l'ajout du root si il n'est pas dans la bdd add root
+			
+		if (gestionPersonnel.getRoot() == null) {
+			
+				try {
+					gestionPersonnel.addRoot("root", "toor");
+				} catch (SauvegardeImpossible e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		
+		}
+
+
+	} else {
+		 System.out.println("GestionPersonnel déjà créé");	
 			
 		}
 		return gestionPersonnel;
@@ -53,11 +68,7 @@ public class GestionPersonnel implements Serializable
 		ligues = new TreeSet<>();
 		gestionPersonnel = this;
 		
-		try {
-			addRoot("root","toor");
-		} catch (SauvegardeImpossible e) {
-			e.printStackTrace();
-		}
+	
 		
 		
 	}
@@ -91,7 +102,7 @@ public class GestionPersonnel implements Serializable
 	{
 		return Collections.unmodifiableSortedSet(ligues);
 	}
-
+//se servir de cette methode pour ajouter une ligue prendre exemple pour employe
 	public Ligue addLigue(String nom) throws SauvegardeImpossible
 	{
 		Ligue ligue = new Ligue(this, nom); 
@@ -131,20 +142,29 @@ public class GestionPersonnel implements Serializable
 	public int delete(Ligue ligue) throws SauvegardeImpossible {
 		return passerelle.delete(ligue);
 	}
+	 static int delete(Employe employe) throws SauvegardeImpossible {
+		return passerelle.delete(employe);
+	}
 
-	public void addRoot(String nom, String password) throws SauvegardeImpossible {
-		  if (this.root == null) {
-		        this.root = new Employe(this,null, -1, nom, null, null, password);
-		    }
+
+	public void addRoot(String nom, String password)  throws SauvegardeImpossible{
+		
+		        LocalDate dateInscription = LocalDate.now();
+		        Employe employe = new Employe(this,null, nom, null, null, password, dateInscription, null);
+		        this.root = employe;
+		    
        }
 	
-	public void addRoot(int id,String nom, String password) throws SauvegardeImpossible {
-		  if (this.root == null) {
-		        this.root = new Employe(this,null, id, nom, null, null, password);
-		        passerelle.insert(root);
+	public void addRoot(int id,String nom, String password) {
+		
+		   
+		       Employe employe = new Employe(this,null, id, nom, null, null, password, null, null);
+		           this.root = employe;
 		    }
 		  
-     }
+     
+	
+	
 	/**
 	 * Retourne le root (super-utilisateur).
 	 * @return le root.

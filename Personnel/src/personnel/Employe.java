@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
+import java.util.Date;
 
 /**
  * Employé d'une ligue hébergée par la M2L. Certains peuvent 
@@ -23,37 +24,17 @@ public class Employe implements Serializable, Comparable<Employe>
 	private LocalDate Depart = null;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
-	
-	Employe(GestionPersonnel gestionPersonnel, int id, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
+
+
+
+  Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart) throws SauvegardeImpossible
     {
-	
-        this.Dateinscription = Dateinscription;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.password = password;
-        this.mail = mail;
-        this.gestionPersonnel = gestionPersonnel;
+        this(gestionPersonnel,ligue, -1, nom, prenom, mail, password, Dateinscription, Depart);
+        this.id = gestionPersonnel.insert(this);
         
     }
 
-
-
-
-    Employe(GestionPersonnel gestionPersonnel, int id, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
-    {
-
-        this.gestionPersonnel = gestionPersonnel;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.password = password;
-        this.mail = mail;
-        this.ligue = ligue;
-        this.Dateinscription = Dateinscription;
-        this.Depart = Depart;
-
-    }
-
-    Employe(GestionPersonnel gestionPersonnel,Ligue ligue,int id,String nom, String prenom, String mail, String password)
+    Employe(GestionPersonnel gestionPersonnel,Ligue ligue,int id,String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart)
     {
     	
     
@@ -64,17 +45,14 @@ public class Employe implements Serializable, Comparable<Employe>
         this.prenom = prenom;
         this.password = password;
         this.mail = mail;
-    
+        this.Dateinscription = Dateinscription;
+        this.Depart = Depart;
+
 
     }
 
-    Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart) throws SauvegardeImpossible
-    {
-        this(gestionPersonnel,ligue, -1, nom, prenom, mail, password);
-        this.id = gestionPersonnel.insert(this);
-        
-    }
-		
+  
+
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
 	 * passée en paramètre.
@@ -139,6 +117,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	
 	public String getPassword() {
 		return password;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId() {
+		this.id = id;
 	}
 	
 	/**
@@ -256,9 +240,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
+	 * @throws SauvegardeImpossible 
 	 */
 	
-	public void remove() throws datesInvalides
+	public void remove() throws datesInvalides, SauvegardeImpossible
 	{
 		Employe root = gestionPersonnel.getRoot();
 		if (this != root)
@@ -281,29 +266,15 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	
 	@Override
+	
 	public String toString()
-
 	{
-
-	String res = nom + " " + prenom + " " + mail +" "+Dateinscription+" (";
-
-	if (estRoot())
-
-	res += "super-utilisateur";
-
-	else
-
-	res += ligue.toString();
-
-	return res + ")";
-
-	}
-
-	public void setId(int id) {
-        this.id = id;
-    }	
-	public int getId() {
-		return id;
+		String res = nom + " " + prenom + " " + mail + " " + Dateinscription + " (";
+		if (estRoot())
+			res += "super-utilisateur";
+		else
+			res += "ligue : " + (ligue != null ? ligue.getNom() : "aucune");
+		return res + ")";
 	}
 	
 

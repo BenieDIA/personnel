@@ -33,6 +33,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		this(gestionPersonnel, -1, nom);
 		this.id = gestionPersonnel.insert(this); 
 	}
+	
 
 	Ligue(GestionPersonnel gestionPersonnel, int id, String nom)
 	{
@@ -74,10 +75,13 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @return l'administrateur de la ligue.
 	 */
 	
-	public Employe getAdministrateur()
-	{
-		return administrateur;
-	}
+
+public Employe getAdministrateur() {
+    if (administrateur == null) {
+        return gestionPersonnel.getRoot(); // Retourne le root si aucun administrateur n'est défini
+    }
+    return administrateur; // Retourne l'administrateur actuel
+}
 
 	/**
 	 * Fait de administrateur l'administrateur de la ligue.
@@ -117,24 +121,31 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @throws SauvegardeImpossible 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Dateinscription, LocalDate Depart) throws datesInvalides, SauvegardeImpossible
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate dateInscription, LocalDate Depart) throws SauvegardeImpossible
 	{
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Dateinscription,Depart);
-		employe.setDateinscription(Dateinscription);
-		employes.add(employe);
-		return employe;	
+	    GestionPersonnel gestion = GestionPersonnel.getGestionPersonnel();
+	
+	    Employe employe = new Employe(gestion,this, -1, nom, prenom, mail, password, dateInscription, Depart);
+	    this.employes.add(employe);
+
+	    return employe;
 	}
 	
-	public void remove(Employe employe) throws datesInvalides
+	public Employe addEmploye(int id, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart){
+		Employe employe = new Employe(this.gestionPersonnel, this, id, nom, prenom, mail, password, dateArrivee, dateDepart);
+		employes.add(employe);
+		return employe;
+	}
+	
+	public void remove(Employe employe) throws datesInvalides, SauvegardeImpossible
 	{
 		
+		GestionPersonnel.delete(employe);
 		employes.remove(employe);
-		employe.setDepart(LocalDate.now());/*benie*/
+		employe.setDepart(LocalDate.now());
 		
 	}
-	public void addEmploye(Employe employe) {
-        employes.add(employe);
-    }
+
 	
 	/**
 	 * Supprime la ligue, entraîne la suppression de tous les employés
@@ -162,7 +173,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		return nom;
 	}
 	
-	public int getLigueId() {
+	public int getId() {
 		return id;
 	}
 

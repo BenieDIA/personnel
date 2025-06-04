@@ -10,6 +10,7 @@ import commandLineMenus.Menu;
 import commandLineMenus.Option;
 import personnel.Employe;
 import personnel.Ligue;
+import personnel.SauvegardeImpossible;
 import personnel.datesInvalides;
 
 public class EmployeConsole 
@@ -96,7 +97,12 @@ public class EmployeConsole
 	private Option supprimer(Employe employe)
 	{
 		return new Option("Supprimer", "v", () -> {try {
-			employe.remove();
+			try {
+				employe.remove();
+			} catch (SauvegardeImpossible e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (datesInvalides e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

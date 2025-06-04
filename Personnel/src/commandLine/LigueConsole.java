@@ -98,7 +98,7 @@ public class LigueConsole
 	}
 	
 	
-	private Option ajouterEmploye(final Ligue ligue)
+	private Option ajouterEmploye(final Ligue ligue) throws datesInvalides
 	{
 		 
 		
@@ -120,12 +120,7 @@ public class LigueConsole
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}		    
-					} catch (datesInvalides e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						System.out.println("Format de date invalide: " + e.getMessage());
-					}
-					catch (DateTimeParseException d) {
+					} catch (DateTimeParseException d) {
 			            System.out.println("Format de date invalide: " + d.getMessage());
 			        }
 				}
@@ -136,7 +131,12 @@ public class LigueConsole
 	{
 		Menu menu = new Menu("Gérer les employés de " + ligue.getNom(), "e");
 		menu.add(afficherEmployes(ligue));
-		menu.add(ajouterEmploye(ligue));
+		try {
+			menu.add(ajouterEmploye(ligue));
+		} catch (datesInvalides e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		menu.add(selectionEmploye(ligue));
 		menu.addBack("q");
 		return menu;
@@ -166,7 +166,12 @@ public class LigueConsole
 		return new List<>("Supprimer un employé", "s", 
 				() -> new ArrayList<>(ligue.getEmployes()),
 				(index, element) -> {try {
-					element.remove();
+					try {
+						element.remove();
+					} catch (SauvegardeImpossible e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} catch (datesInvalides e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
