@@ -41,19 +41,25 @@ public class GestionPersonnel implements Serializable
 			if (gestionPersonnel == null)
 				gestionPersonnel = new GestionPersonnel();
 			
-			try {
-				if (gestionPersonnel.getRoot() == null) {
-					//Initialiser root seulement s'il n'existe pas
-					gestionPersonnel.addRoot("root", "toor");
-				}	
-			} catch (SauvegardeImpossible e) {
-				e.printStackTrace();
-			}
-		}
-		return gestionPersonnel;
-	}
+			//ici gérer l'ajout du root si il n'est pas dans la bdd add root
 
+	        if (gestionPersonnel.getRoot() == null) {
 
+	                try {
+	                    gestionPersonnel.addRoot("root", "toor");
+	                } catch (SauvegardeImpossible e) {
+	                    // TODO Auto-generated catch block
+	                    e.printStackTrace();
+	                }
+	        }
+
+	    } else {
+	         System.out.println("GestionPersonnel déjà créé");
+
+	        }
+	        return gestionPersonnel;
+	    }
+	
 	public GestionPersonnel()
 	{
 		if (gestionPersonnel != null)
@@ -119,17 +125,18 @@ public class GestionPersonnel implements Serializable
 
 	public void addRoot(String nom, String password) throws SauvegardeImpossible {
 
-			 Employe employe = new Employe(this, null, nom, null, null,password,null, null);
+			LocalDate dateArriver = LocalDate.now();
+			 Employe employe = new Employe(this, null, nom, null, null,password,dateArriver, null);
 	         this.root = employe;
    }
 	
 
 	public void addRoot(int id, String nom,  String password) {
 		
-		Employe employe = new Employe(this, id,null,nom,null,null,password,null,null);
+		Employe employe = new Employe(this,id,null,nom,null,null,password,null,null);
 		this.root=employe;
 	}
-	
+		
 
 	void remove(Ligue ligue)
 	{

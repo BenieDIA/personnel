@@ -1,70 +1,86 @@
 package interfaces;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 
 public class loginRoot {
 	
-	private JLabel labelTitre;
+	  public static void main(String[] args) {
+	        // Crée la fenêtre
+	        JFrame frame = new JFrame("Connexion Root");
+	        frame.setSize(300, 150);
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setLayout(null);
+
+	        // Label "Root"
+	        JLabel labelRoot = new JLabel("Root");
+	        labelRoot.setBounds(20, 20, 80, 25);
+	        frame.add(labelRoot);
 
 
+	        JTextField textRoot = new JTextField();
+	        textRoot.setBounds(100, 20, 200, 25);
+	        frame.add(textRoot);
 
-	private JPanel getTitrePanel()
-	{
-		JPanel panel = new JPanel();
-		panel.add(getLabelTitre());
-		return panel;
-	}
+	        JLabel labelPassword = new JLabel("Mot de passe: ");
+	        labelPassword.setBounds(10, 60, 100, 25);
+	        frame.add(labelPassword);
+
+	        JPasswordField textPassword = new JPasswordField();
+	        textPassword.setBounds(100, 60, 200, 25);
+	        frame.add(textPassword);
+	        
+	        JButton btnConnexion = new JButton("Se connecter");
+	        btnConnexion.setBounds(100, 100, 150, 30);
+	        frame.add(btnConnexion);
+	        btnConnexion.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+			
+		     		String userName = textRoot.getText();
+	        		String password = textPassword.getText();
 	
+	            	try {
+	        			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/m2l", "root","");
+	        			PreparedStatement st = connection.prepareStatement("Select nom, password from employe where nom=? and password = ?");
+	        			st.setString(1, userName);
+	        			st.setString(2, password);
+	        			ResultSet rs = st.executeQuery();
+	        			
+	        			if (rs.next()) {
+	                        JOptionPane.showMessageDialog(null, "Connexion réussie !");
+	                        // ici tu peux ouvrir la fenêtre principale ou continuer ton appli
+	                    } else {
+	                        JOptionPane.showMessageDialog(null, "Identifiants incorrects.", "Erreur", JOptionPane.ERROR_MESSAGE);
+	                    }
+	        			
+	        		}catch(SQLException ex) {
+	        			ex.printStackTrace();
+	        		}
+	            	
+	                
+				}
+			});
+			
 
-	private Component getLabelTitre() {
-		labelTitre = new JLabel("Page connexion");
-		return labelTitre ;
-	}
-
-	 private JLabel getLabelMotPass()
-	 {
-	  return new JLabel("Mot de passe = ");
-	 }
-	 
-	
-	private JPanel getPanelLogin()
-	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2,2));
-		panel.add(getLabelMotPass());
-		return panel;
-		
-	}
-	
-	 private JPanel getMainPanel()
-	 {
-	  JPanel panel = new JPanel();
-	  panel.setLayout(new BorderLayout());
-	  panel.add(getTitrePanel(), BorderLayout.NORTH);
-	  panel.add(getPanelLogin(), BorderLayout.CENTER);
-	  return panel;
-	 }
-
-	 
-	 
-	public loginRoot()
-	{
-		JFrame FrameLogin = new JFrame();
-		FrameLogin.setTitle("M2L");
-		FrameLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FrameLogin.setContentPane(getMainPanel());
-		FrameLogin.setVisible(true);
-		FrameLogin.pack();
-}
-	
-	public static void main(String [] args)
-	{
-		new loginRoot();
-	}
+	  
+	        
+	        
+	       
+	        frame.setVisible(true);
+	    }
+	       
 }

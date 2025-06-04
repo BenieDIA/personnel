@@ -16,6 +16,7 @@ import personnel.GestionPersonnel;
 import personnel.Ligue;
 import personnel.Passerelle;
 import personnel.SauvegardeImpossible;
+import personnel.dateInvalide;
 
 
 public class JDBC implements Passerelle 
@@ -49,20 +50,7 @@ public class JDBC implements Passerelle
 			ResultSet ligues = instruction.executeQuery(requete);
 			while (ligues.next())
 				gestionPersonnel.addLigue(ligues.getInt(1), ligues.getString(2));
-			
-		
-			// lecture Root
-			  String requeteRoot = "SELECT * FROM employe WHERE ligue_id IS NULL";
-              Statement instructionRoot = connection.createStatement();
-              ResultSet rootResultat = instructionRoot.executeQuery(requeteRoot);
-              if (rootResultat.next()) {
-            	  int id = rootResultat.getInt("id");
-            	  String nom = rootResultat.getString("nom");
-            	  String password = rootResultat.getString("password");
-                  gestionPersonnel.addRoot(id,nom,password);
-              }
-              
-              
+			  
               // Charger les employés
               String requeteEmployes = "SELECT * FROM employe";
               Statement instructionEmployes = connection.createStatement();
@@ -72,17 +60,36 @@ public class JDBC implements Passerelle
                   String nom = resultEmployes.getString("nom");
                   String prenom = resultEmployes.getString("prenom");
                   String mail = resultEmployes.getString("mail");
-                  String password = resultEmployes.getString("password");
-    
-              
+                  String password = resultEmployes.getString("password");     
+                  LocalDate dateArriver = resultEmployes.getDate("dateArriver").toLocalDate();
+                  LocalDate depart = null;
+                  if (resultEmployes.getDate("dateDepart") != null)
+                      depart = resultEmployes.getDate("dateDepart").toLocalDate();
+
+                  int ligueId = resultEmployes.getInt("ligue_id");
+                  if (resultEmployes.wasNull()) {
+                      // Employé sans ligue = root
+                      gestionPersonnel.addRoot(id, nom, password);
+                  } else {
+                      // Ajouter employé à la bonne ligue
+                      for (Ligue ligue : gestionPersonnel.getLigues()) {
+                          if (ligue.getId() == ligueId) {
+                              ligue.addEmploye(nom, prenom, mail, password, dateArriver, depart);
+                              break;
+                          }
+                      }
+                  }
 		}
 		}
 		
-		catch (SQLException e)
+		catch (SQLException  | SauvegardeImpossible e)	
 		{
 			System.out.println(e);
+		} catch (dateInvalide e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return gestionPersonnel;
+		return gestionPersonnel;	
 	}
 	
 	

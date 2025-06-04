@@ -125,8 +125,15 @@ public class Ligue implements Serializable, Comparable<Ligue>
 
 	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws dateInvalide, SauvegardeImpossible
 	{
+		
 		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, dateArriver, dateDepart);
 		employe.setDate(dateArriver);
+		employes.add(employe);
+		return employe;
+	}
+	
+	public Employe addEmploye(int id, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart){
+		Employe employe = new Employe(this.gestionPersonnel,id,this, nom, prenom, mail, password, dateArrivee, dateDepart);
 		employes.add(employe);
 		return employe;
 	}
