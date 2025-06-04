@@ -145,7 +145,13 @@ public Employe getAdministrateur() {
 		employe.setDepart(LocalDate.now());
 		
 	}
-
+	public void addEmploye(Employe employe)  throws datesInvalides, SauvegardeImpossible{
+        employes.add(employe);
+    }
+	public void addEmploye(int id,Employe employe) {
+        employes.add(employe);
+        
+    }
 	
 	/**
 	 * Supprime la ligue, entraîne la suppression de tous les employés
