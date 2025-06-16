@@ -34,31 +34,31 @@ public class GestionPersonnel implements Serializable
 	 */
 	
 	public static GestionPersonnel getGestionPersonnel()
-	{
-		if (gestionPersonnel == null)
-		{
-			gestionPersonnel = passerelle.getGestionPersonnel();
-			if (gestionPersonnel == null)
-				gestionPersonnel = new GestionPersonnel();
-			
-			//ici gérer l'ajout du root si il n'est pas dans la bdd add root
+    {
+        if (gestionPersonnel == null)
+        {
 
-	        if (gestionPersonnel.getRoot() == null) {
+            gestionPersonnel = passerelle.getGestionPersonnel();
+            if (gestionPersonnel == null)
+                gestionPersonnel = new GestionPersonnel();
+        //ici gérer l'ajout du root si il n'est pas dans la bdd add root
 
-	                try {
-	                    gestionPersonnel.addRoot("root", "toor");
-	                } catch (SauvegardeImpossible e) {
-	                    // TODO Auto-generated catch block
-	                    e.printStackTrace();
-	                }
-	        }
+        if (gestionPersonnel.getRoot() == null) {
 
-	    } else {
-	         System.out.println("GestionPersonnel déjà créé");
+                try {
+                    gestionPersonnel.addRoot("root", "toor");
+                } catch (SauvegardeImpossible e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+        }
+    } else {
+         System.out.println("Bienvenue dans la gestion du personnel de la M2L");
 
-	        }
-	        return gestionPersonnel;
-	    }
+        }
+        return gestionPersonnel;
+    }
+	
 	
 	public GestionPersonnel()
 	{

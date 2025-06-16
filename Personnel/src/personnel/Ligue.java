@@ -123,20 +123,32 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @throws SauvegardeImpossible 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws dateInvalide, SauvegardeImpossible
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible
 	{
-		
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, dateArriver, dateDepart);
-		employe.setDate(dateArriver);
-		employes.add(employe);
-		return employe;
+	    GestionPersonnel gestion = GestionPersonnel.getGestionPersonnel();
+	
+	    Employe employe = new Employe(gestion,-1, this, nom, prenom, mail, password, dateArriver, dateDepart);
+	    this.employes.add(employe);
+
+	    return employe;
 	}
 	
 	public Employe addEmploye(int id, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart){
-		Employe employe = new Employe(this.gestionPersonnel,id,this, nom, prenom, mail, password, dateArrivee, dateDepart);
+		Employe employe = new Employe(this.gestionPersonnel, id, this, nom, prenom, mail, password, dateArrivee, dateDepart);
 		employes.add(employe);
 		return employe;
 	}
+
+
+	
+	public void addEmploye(Employe employe)  throws dateInvalide, SauvegardeImpossible{
+        employes.add(employe);
+    }
+    public void addEmploye(int id,Employe employe) {
+        employes.add(employe);
+
+    }
+
 	
 	void remove(Employe employe) throws dateInvalide, SauvegardeImpossible
 	{
