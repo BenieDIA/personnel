@@ -50,7 +50,6 @@ public class Acceuil extends JFrame {
 	            	 // Récupérer le root
 	                Employe root = GestionPersonnel.getGestionPersonnel().getRoot();
 	                if (root != null) {
-	                    // Ouvrir la fenêtre Modifier Root
 	                    new ModifierRoot(root);
 	                } else {
 	                    JOptionPane.showMessageDialog(frame, "Root non trouvé dans la base.", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -63,7 +62,7 @@ public class Acceuil extends JFrame {
 	        btnGererlLigues.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                JOptionPane.showMessageDialog(frame, "Fonction Gérer les Ligues à implémenter.");
+	            	new gereLigue();
 	            }
 	        });
 

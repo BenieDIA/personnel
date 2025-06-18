@@ -94,7 +94,7 @@ public class ModifierRoot  extends JFrame{
 				} catch (SauvegardeImpossible e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}  // stocké en clair
+				}  
         });
 
         btnDate.addActionListener(e -> {
