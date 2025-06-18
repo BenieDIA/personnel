@@ -34,30 +34,33 @@ public class GestionPersonnel implements Serializable
 	 */
 	
 	public static GestionPersonnel getGestionPersonnel()
-    {
-        if (gestionPersonnel == null)
-        {
+	{
+		if (gestionPersonnel == null)
+		{
+			
+			gestionPersonnel = passerelle.getGestionPersonnel();
+			if (gestionPersonnel == null)
+				gestionPersonnel = new GestionPersonnel();
+		//ici gérer l'ajout du root si il n'est pas dans la bdd add root
+			
+		if (gestionPersonnel.getRoot() == null) {
+			
+				try {
+					gestionPersonnel.addRoot("root", "toor");
+				} catch (SauvegardeImpossible e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
+		}
 
-            gestionPersonnel = passerelle.getGestionPersonnel();
-            if (gestionPersonnel == null)
-                gestionPersonnel = new GestionPersonnel();
-        //ici gérer l'ajout du root si il n'est pas dans la bdd add root
+	} else {
+		 System.out.println("GestionPersonnel déjà créé");	
+			
+		}
+		return gestionPersonnel;
+	
+	}
 
-        if (gestionPersonnel.getRoot() == null) {
-
-                try {
-                    gestionPersonnel.addRoot("root", "toor");
-                } catch (SauvegardeImpossible e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-        }
-    } else {
-         System.out.println("Bienvenue dans la gestion du personnel de la M2L");
-
-        }
-        return gestionPersonnel;
-    }
 	
 	
 	public GestionPersonnel()
@@ -66,13 +69,6 @@ public class GestionPersonnel implements Serializable
 			throw new RuntimeException("Vous ne pouvez créer qu'une seuls instance de cet objet.");
 		ligues = new TreeSet<>();
 		gestionPersonnel = this;
-		
-		try {
-			addRoot("root","toor");
-			
-		}catch(SauvegardeImpossible e) {
-			e.printStackTrace();
-		}
 		
 	}
 	
@@ -115,7 +111,7 @@ public class GestionPersonnel implements Serializable
 	}
 	
 	
-	public Ligue addLigue(int id, String nom)
+	public Ligue addLigue(int id, String nom, int employeAdmin)
 	{
 		Ligue ligue = new Ligue(this, id, nom);
 		ligues.add(ligue);
@@ -133,7 +129,7 @@ public class GestionPersonnel implements Serializable
 
 	public void addRoot(int id, String nom,  String password) {
 		
-		Employe employe = new Employe(this,id,null,nom,null,null,password,null,null);
+		Employe employe = new Employe(this,null,id,nom,null,null,password,null,null);
 		this.root=employe;
 	}
 		
@@ -173,6 +169,10 @@ public class GestionPersonnel implements Serializable
 	int delete(Employe employe)throws SauvegardeImpossible
 	{
 		return passerelle.delete(employe);
+	}
+	int setAdmin(Employe employe)throws SauvegardeImpossible
+	{
+		return passerelle.setAdmin(employe);
 	}
 
 	/**

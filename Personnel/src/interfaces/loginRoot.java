@@ -15,9 +15,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 
-public class loginRoot {
+public class loginRoot extends JFrame{
 	
-	  public static void main(String[] args) {
+	  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static void main(String[] args) {
 	        // Crée la fenêtre
 	        JFrame frame = new JFrame("Connexion Root");
 	        frame.setSize(300, 150);
@@ -62,10 +67,16 @@ public class loginRoot {
 	        			
 	        			if (rs.next()) {
 	                        JOptionPane.showMessageDialog(null, "Connexion réussie !");
-	                        // ici tu peux ouvrir la fenêtre principale ou continuer ton appli
+	                        // ouvrir la fenêtre principale ou continuer ton appli
+	                        frame.dispose();
+	                        new Acceuil();	                        
 	                    } else {
 	                        JOptionPane.showMessageDialog(null, "Identifiants incorrects.", "Erreur", JOptionPane.ERROR_MESSAGE);
 	                    }
+	        			
+	        		      rs.close();
+	        	            st.close();
+	        	            connection.close();
 	        			
 	        		}catch(SQLException ex) {
 	        			ex.printStackTrace();
@@ -74,13 +85,7 @@ public class loginRoot {
 	                
 				}
 			});
-			
-
-	  
-	        
-	        
-	       
-	        frame.setVisible(true);
+	        	frame.setVisible(true);
 	    }
 	       
 }

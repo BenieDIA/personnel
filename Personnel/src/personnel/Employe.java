@@ -22,27 +22,31 @@ public class Employe implements Serializable, Comparable<Employe>
 	private GestionPersonnel gestionPersonnel;
 	
 	
-	Employe(GestionPersonnel gestionPersonnel, int id,Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart)
-    {
-		this.id = id;
-        this.dateArriver =dateArriver;
-        this.dateDepart = dateDepart;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.password = password;
-        this.mail = mail;
-        this.ligue = ligue;
-        this.gestionPersonnel = gestionPersonnel;
-    }
-		
+	  Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible
+	    {
+	        this(gestionPersonnel,ligue, -1, nom, prenom, mail, password, dateArriver, dateDepart);
+	        this.id = gestionPersonnel.insert(this);
+	        
+	    }
+
+	    Employe(GestionPersonnel gestionPersonnel,Ligue ligue,int id,String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart)
+	    {
+	    	
+	    
+	    	this.ligue = ligue;
+	        this.id = id;
+	        this.gestionPersonnel = gestionPersonnel;
+	        this.nom = nom;
+	        this.prenom = prenom;
+	        this.password = password;
+	        this.mail = mail;
+	        this.dateArriver = dateArriver;
+	        this.dateDepart = dateDepart;
 
 
-    Employe(GestionPersonnel gestionPersonnel,Ligue ligue,String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible
-    {
-        this(gestionPersonnel, -1,ligue, nom, prenom, mail, password, dateArriver, dateDepart);
-        this.id = gestionPersonnel.insert(this);
-    }
-    
+	    }
+
+	  
 	/**
 	 * Retourne vrai ssi l'employé est administrateur de la ligue 
 	 * passée en paramètre.
