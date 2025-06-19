@@ -41,16 +41,16 @@ public class LigueConsole
 		return new Option("Afficher les ligues", "l", () -> {System.out.println(gestionPersonnel.getLigues());});
 	}
 
-	private Option afficher(final Ligue ligue, GestionPersonnel gestionPersonnel)
-	{
-		return new Option("Afficher la ligue", "l", 
-				() -> 
-				{
-					System.out.println(gestionPersonnel.getLigues());
-					System.out.println("administrée par " + ligue.getAdministrateur());
-				}
-		);
-	}
+	private Option afficher(final Ligue ligue)
+    {
+        return new Option("Afficher la ligue", "l", 
+                () -> 
+                {
+                    System.out.println(ligue);
+                    System.out.println("administrée par " + ligue.getAdministrateur().getNom());
+                }
+        );
+    }
 	private Option afficherEmployes(final Ligue ligue)
 	{
 		return new Option("Afficher les employes", "l", () -> {System.out.println(ligue.getEmployes());});
@@ -74,7 +74,7 @@ public class LigueConsole
 	private Menu editerLigue(Ligue ligue)
 	{
 		Menu menu = new Menu("Editer " + ligue.getNom());
-		menu.add(afficher(ligue, gestionPersonnel));
+		menu.add(afficher(ligue));
 		menu.add(gererEmployes(ligue));
 		menu.add(changerAdministrateur(ligue));
 		menu.add(changerNom(ligue));
@@ -180,7 +180,14 @@ public class LigueConsole
 	{
 		return new List<Employe>("Changer l'admin", "h",
 				() -> new ArrayList<>(ligue.getEmployes()),
-				(index , element) ->ligue.setAdministrateur(element));
+				(index , element) ->{
+					try {
+						ligue.setAdministrateur(element);
+					} catch (SauvegardeImpossible e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
 	}		
 
 

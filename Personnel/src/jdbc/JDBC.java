@@ -20,7 +20,9 @@ import personnel.SauvegardeImpossible;
 public class JDBC implements Passerelle 
 {
 	Connection connection;
+	
 	public JDBC()
+	
 	{
 		try
 		{	
@@ -41,14 +43,24 @@ public class JDBC implements Passerelle
 	public GestionPersonnel getGestionPersonnel() {
 	    GestionPersonnel gestionPersonnel = new GestionPersonnel();
 	    try {
-	        String requete = "select * from ligue";
-	        Statement instruction = connection.createStatement();
-	        ResultSet ligues = instruction.executeQuery(requete);
-	        while (ligues.next()) {
-	            int ligueId = ligues.getInt("id");
-	            String ligueNom = ligues.getString("nom");
-	            int EmployeAdmin = ligues.getInt("id");
-	            Ligue ligue = gestionPersonnel.addLigue(ligueId, ligueNom, EmployeAdmin);
+	    	String requete = "SELECT l.id AS ligue_id, l.nom AS ligue_nom, e.id AS employe_admin_id " +
+	                 "FROM Ligue l " +
+	                 "LEFT JOIN Employe e ON e.ligue_id = l.id AND e.isAdmin = true";
+
+	    			Statement instruction = connection.createStatement();
+	    			ResultSet resultats = instruction.executeQuery(requete);
+
+	    			while (resultats.next()) {
+	    				int ligueId = resultats.getInt("ligue_id");
+	    				String ligueNom = resultats.getString("ligue_nom");
+	    
+				    // attention : employe_admin_id peut être null si pas d'admin
+				    int employeAdminId = resultats.getInt("employe_admin_id");
+				    if (resultats.wasNull()) {
+				        employeAdminId = -1;  // ou 0, ou laisser null selon ta logique
+	    }
+
+	    Ligue ligue = gestionPersonnel.addLigue(ligueId, ligueNom, employeAdminId);
 	            
 	            
 
@@ -275,4 +287,5 @@ public class JDBC implements Passerelle
 	        throw new SauvegardeImpossible(exception);
 	    }
 	}
+	
 }

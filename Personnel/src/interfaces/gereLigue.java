@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+
 
 public class gereLigue {
 
@@ -20,17 +20,17 @@ public class gereLigue {
 	        labelTitre.setBounds(130, 20, 200, 30);
 	        frame.add(labelTitre);
 
-	        // Bouton Afficher les Ligues (l)
+	        // Bouton Afficher les Ligues 
 	        JButton btnAfficherLigues = new JButton("Afficher les ligues");
 	        btnAfficherLigues.setBounds(100, 60, 200, 30);
 	        frame.add(btnAfficherLigues);
 
-	        // Bouton Ajouter une Ligue (a)
+	        // Bouton Ajouter une Ligue 
 	        JButton btnAjouterLigue = new JButton("Ajouter une ligue");
 	        btnAjouterLigue.setBounds(100, 100, 200, 30);
 	        frame.add(btnAjouterLigue);
 
-	        // Bouton Sélectionner une Ligue (e)
+	        // Bouton Sélectionner une Ligue 
 	        JButton btnSelectionnerLigue = new JButton("Sélectionner une ligue");
 	        btnSelectionnerLigue.setBounds(100, 140, 200, 30);
 	        frame.add(btnSelectionnerLigue);
@@ -52,8 +52,8 @@ public class gereLigue {
 	        btnAjouterLigue.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                // À implémenter : ajout d'une ligue
-	                JOptionPane.showMessageDialog(frame, "Ajout de ligue à implémenter.");
+	                // ajout d'une ligue
+	                new ajouterLigues();
 	            }
 	        });
 
@@ -61,10 +61,9 @@ public class gereLigue {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	                // À implémenter : sélection d'une ligue
-	                JOptionPane.showMessageDialog(frame, "Sélection de ligue à implémenter.");
+	            	new SelectionnerLigues();
 	            }
 	        });
-
 	        btnBack.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {

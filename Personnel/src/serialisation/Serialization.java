@@ -87,4 +87,11 @@ public class Serialization implements personnel.Passerelle
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
+
+
+
+
+
 }

@@ -75,10 +75,13 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @return l'administrateur de la ligue.
 	 */
 	
-	public Employe getAdministrateur()
-	{
-		return administrateur;
-	}
+	public Employe getAdministrateur() {
+        if (administrateur == null)  {
+                return gestionPersonnel.getRoot(); // Retourne le root si aucun administrateur n'est défini
+            }
+        return administrateur; // Retourne l'administrateur actuel
+    }
+	
 	
 	
 	public int getId() {
@@ -92,14 +95,16 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * un employé de la ligue ou le root. Révoque les droits de l'ancien 
 	 * administrateur.
 	 * @param administrateur le nouvel administrateur de la ligue.
+	 * @throws SauvegardeImpossible 
 	 */
 	
-	public void setAdministrateur(Employe administrateur)
+	public void setAdministrateur(Employe administrateur) throws SauvegardeImpossible
 	{
 		Employe root = gestionPersonnel.getRoot();
 		if (administrateur != root && administrateur.getLigue() != this)
 			throw new DroitsInsuffisants();
 		this.administrateur = administrateur;
+		gestionPersonnel.setAdmin(administrateur);
 	}
 
 	/**
@@ -170,4 +175,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	{
 		return nom;
 	}
+	
+
+
 }

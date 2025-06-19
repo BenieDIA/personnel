@@ -28,17 +28,17 @@ public class Acceuil extends JFrame {
 	        labelBienvenue.setBounds(100, 20, 250, 30);
 	        frame.add(labelBienvenue);
 
-	        // Bouton Modifier Root (m)
+	        // Bouton Modifier Root 
 	        JButton btnModifierRoot = new JButton(" Modifier Root");
 	        btnModifierRoot.setBounds(100, 60, 200, 30);
 	        frame.add(btnModifierRoot);
 
-	        // Bouton Gérer les Ligues (l)
+	        // Bouton Gérer les Ligues 
 	        JButton btnGererlLigues = new JButton("Gérer les Ligues");
 	        btnGererlLigues.setBounds(100, 100, 200, 30);
 	        frame.add(btnGererlLigues);
 
-	        // Bouton Quitter (q)	
+	        // Bouton Quitter 
 	        JButton btnQuitter = new JButton(" Quitter");
 	        btnQuitter.setBounds(100, 140, 200, 30);
 	        frame.add(btnQuitter);

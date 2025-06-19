@@ -12,4 +12,5 @@ public interface Passerelle
 	public int delete(Employe employe) throws SauvegardeImpossible;
 	int setAdmin(Employe employe) throws SauvegardeImpossible;
 
+
 }
