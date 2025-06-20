@@ -174,6 +174,7 @@ public class GestionPersonnel implements Serializable
 	{
 		return passerelle.setAdmin(employe);
 	}
+
 	/**
 	 * Retourne le root (super-utilisateur).
 	 * @return le root.

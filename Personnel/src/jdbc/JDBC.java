@@ -86,12 +86,16 @@ public class JDBC implements Passerelle
 	                    LocalDate employeDateDepart = employes.getObject("dateDepart", LocalDate.class);
 	                    
 	                    
-
-	                    // Utilisation de la méthode addEmploye() existante
-	                    ligue.addEmploye(employeId, employeNom, employePrenom, employeMail, employePassword, employeDateArrivee, employeDateDepart);
-
+	                    // Ajout de l'employé à la ligue
+	                    Employe employe = ligue.addEmploye(employeId, employeNom, employePrenom, employeMail, employePassword, employeDateArrivee, employeDateDepart);
+	                    
+	                    // Vérification si l'employé est l'administrateur de la ligue
+	                    if (employeId == employeAdminId) {
+	                        ligue.setAdministrateur(employe);
+	                    }
+	                    
 	                    // Ajout de l'ID de l'employé au Set
-
+	                    
 	                    employeIds.add(employeId);
 	                }else {
 	                    System.out.println("Employé avec l'ID " + employeId + " existe déjà.");
@@ -118,7 +122,10 @@ public class JDBC implements Passerelle
 	        }
 	    } catch (SQLException e) {
 	        System.out.println(e);
-	    }
+	    } catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    return gestionPersonnel;
 	}
 	
@@ -212,26 +219,26 @@ public class JDBC implements Passerelle
         }
     }
 
-	 @Override
-	    public int update(Employe employe) throws SauvegardeImpossible {
-	        try {
-	            PreparedStatement instruction = connection.prepareStatement(
-	                "UPDATE employe SET dateArriver = ?, nom = ?, prenom = ?, mail = ?, password = ? WHERE id = ?");
-	            instruction.setDate(1, employe.getDate() != null 
-	                ? java.sql.Date.valueOf(employe.getDateDepart()) 
-	                : java.sql.Date.valueOf(LocalDate.now())); // Utiliser une date par défaut
-	            instruction.setString(2, employe.getNom());
-	            instruction.setString(3, employe.getPrenom());
-	            instruction.setString(4, employe.getMail());
-	            instruction.setString(5, employe.getPassword());
-	            instruction.setInt(6, employe.getId());
-	            instruction.executeUpdate();
-	            return employe.getId();
-	        } catch (SQLException exception) {
-	            exception.printStackTrace();
-	            throw new SauvegardeImpossible(exception);
-	        }
-	    }
+    @Override
+    public int update(Employe employe) throws SauvegardeImpossible {
+        try {
+            PreparedStatement instruction = connection.prepareStatement(
+                "UPDATE employe SET dateArriver = ?, nom = ?, prenom = ?, mail = ?, password = ? WHERE id = ?");
+            instruction.setDate(1, employe.getDate() != null 
+                ? java.sql.Date.valueOf(employe.getDate()) 
+                : java.sql.Date.valueOf(LocalDate.now())); // Utiliser une date par défaut
+            instruction.setString(2, employe.getNom());
+            instruction.setString(3, employe.getPrenom());
+            instruction.setString(4, employe.getMail());
+            instruction.setString(5, employe.getPassword());
+            instruction.setInt(6, employe.getId());
+            instruction.executeUpdate();
+            return employe.getId();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new SauvegardeImpossible(exception);
+        }
+    }
 
 	@Override
 	public int delete(Ligue ligue) throws SauvegardeImpossible {
@@ -255,37 +262,50 @@ public class JDBC implements Passerelle
 
 	}
 
-	@Override
-	public int delete(Employe employe) throws SauvegardeImpossible {
-		
-		try {
-			PreparedStatement instruction;
-			
-			instruction = connection.prepareStatement("DELETE from employe where id = ?", Statement.RETURN_GENERATED_KEYS);
-			instruction.setInt(1, employe.getId());
-			int delete = instruction.executeUpdate();
-			return delete;
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-			throw new SauvegardeImpossible(e);
-		}
-		
-	}
-	
+
+@Override
+public int delete(Employe employe) throws SauvegardeImpossible {
+    try {
+        if (employe.getLigue() == null) {
+            throw new SauvegardeImpossible(null);
+        }
+
+        PreparedStatement instruction = connection.prepareStatement(
+            "DELETE FROM employe WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+        instruction.setInt(1, employe.getId());
+        int delete = instruction.executeUpdate();
+        return delete;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new SauvegardeImpossible(e);
+    }
+}
 	@Override
 	public int setAdmin(Employe employe) throws SauvegardeImpossible {
 	    try {
-	        PreparedStatement instruction = connection.prepareStatement(
-	            "UPDATE employe SET isAdmin = ? WHERE id = ?");
-	        instruction.setInt(1, employe.estAdmin(employe.getLigue()) ? 1 : 0); // 1 pour admin, 0 sinon
-	        instruction.setInt(2, employe.getId());
-	        instruction.executeUpdate();
+	        // 1. Retirer le rôle admin à tous les employés de la ligue
+	        PreparedStatement removeAdmins = connection.prepareStatement(
+	            "UPDATE employe SET isAdmin = 0 WHERE ligue_id = ?");
+	        removeAdmins.setInt(1, employe.getLigue().getId());
+	        removeAdmins.executeUpdate();
+
+	        // 2. Nommer ce nouvel admin
+	        PreparedStatement setAdmin = connection.prepareStatement(
+	            "UPDATE employe SET isAdmin = 1 WHERE id = ?");
+	        setAdmin.setInt(1, employe.getId());
+	        setAdmin.executeUpdate();
+
 	        return employe.getId();
+
 	    } catch (SQLException exception) {
 	        exception.printStackTrace();
 	        throw new SauvegardeImpossible(exception);
 	    }
 	}
+	
+
+
+
 	
 }

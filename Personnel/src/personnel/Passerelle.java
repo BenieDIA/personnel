@@ -13,4 +13,5 @@ public interface Passerelle
 	int setAdmin(Employe employe) throws SauvegardeImpossible;
 
 
+
 }

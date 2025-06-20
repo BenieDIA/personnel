@@ -159,7 +159,7 @@ public class LigueConsole
 	
 	private List<Employe> supprimerEmploye(final Ligue ligue)
 	{
-		return new List<>("Supprimer un employé", "s", 
+		return new List<Employe>("Supprimer un employé", "s", 
 				() -> new ArrayList<>(ligue.getEmployes()),
 				(index, element) -> {try {
 					try {
@@ -188,7 +188,8 @@ public class LigueConsole
 						e.printStackTrace();
 					}
 				});
-	}		
+	}	
+	
 
 
 	private Option supprimer(Ligue ligue)

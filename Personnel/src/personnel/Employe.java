@@ -55,10 +55,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @param ligue la ligue pour laquelle on souhaite vérifier si this 
 	 * est l'admininstrateur.
 	 */
-	public boolean estAdmin(Ligue ligue)
-	{ 
-		return ligue.getAdministrateur() == this;
-	}
+	    public boolean estAdmin(Ligue ligue) {
+	        if (ligue == null) {
+	            return false; // Retourne false si la ligue est null
+	        }
+	        return this.equals(ligue.getAdministrateur());
+	    }
 	
 	/**
 	 * Retourne vrai ssi l'employé est le root.
@@ -218,21 +220,22 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
 	 * @throws SauvegardeImpossible 
+	 * @throws dateInvalide 
 	 */
 	
-	public void remove() throws dateInvalide, SauvegardeImpossible
-	{
-		Employe root = gestionPersonnel.getRoot();
-		if (this != root)
-		{
-			if (estAdmin(getLigue()))
-				getLigue().setAdministrateur(root);
-			getLigue().remove(this);
-		}
-		else
-			throw new ImpossibleDeSupprimerRoot();
-	}
 
+
+	public void remove() throws dateInvalide, SauvegardeImpossible {
+	    Employe root = gestionPersonnel.getRoot();
+	    if (this != root) {
+	        if (getLigue() != null) {
+	            getLigue().remove(this); // Supprime l'employé de la ligue
+	        }
+	    } else {	
+	        throw new ImpossibleDeSupprimerRoot();
+	    }
+	}
+	
 	@Override
 	public int compareTo(Employe autre)
 	{
