@@ -1,5 +1,8 @@
 package interfaces;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +24,8 @@ public class EditerLigue {
 	        JButton btnAfficher = new JButton("Afficher la ligue ");
 	        btnAfficher.setBounds(100, 60, 200, 30);
 	        frame.add(btnAfficher);
+
+	        
 
 	        JButton btnGerersEmployes = new JButton("Gérer les employés ");
 	        btnGerersEmployes.setBounds(100, 100, 200, 30);
@@ -44,6 +49,23 @@ public class EditerLigue {
 
 	  
 	        btnBack.addActionListener(e -> frame.dispose());
+	        
+	        // Actions
+	        btnAfficher.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                // affichage des ligues Admin
+	            		new AfficheLigueAdmin(ligue);
+	            }
+	        });
+			btnGerersEmployes.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// gestion des employés de la ligue
+					new GererLesEmployes(ligue);
+				}
+			});
+
 
 	        frame.setVisible(true);
 	}

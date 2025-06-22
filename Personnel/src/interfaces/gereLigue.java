@@ -60,7 +60,7 @@ public class gereLigue {
 	        btnSelectionnerLigue.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                // À implémenter : sélection d'une ligue
+	                //sélection d'une ligue
 	            	new SelectionnerLigues();
 	            }
 	        });
