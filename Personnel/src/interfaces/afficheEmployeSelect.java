@@ -24,19 +24,19 @@ public class afficheEmployeSelect extends JFrame{
         label.setBounds(20, 20, 250, 25);
         menuFrame.add(label);
 
-        JButton btnAfficher = new JButton("l : Afficher l'employé");
+        JButton btnAfficher = new JButton(" Afficher l'employé");
         btnAfficher.setBounds(20, 50, 250, 30);
         menuFrame.add(btnAfficher);
 
-        JButton btnModifier = new JButton("m : Modifier " + employe.getNom());
+        JButton btnModifier = new JButton(" Modifier " + employe.getNom());
         btnModifier.setBounds(20, 90, 250, 30);
         menuFrame.add(btnModifier);
 
-        JButton btnSupprimer = new JButton("v : Supprimer");
+        JButton btnSupprimer = new JButton(" Supprimer");
         btnSupprimer.setBounds(20, 130, 250, 30);
         menuFrame.add(btnSupprimer);
 
-        JButton btnBack = new JButton("q : Back");
+        JButton btnBack = new JButton(" Back");
         btnBack.setBounds(20, 170, 250, 30);
         menuFrame.add(btnBack);
 
