@@ -7,11 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import personnel.GestionPersonnel;
 import personnel.Ligue;
 
 public class EditerLigue {
 
-	EditerLigue(Ligue ligue){
+	EditerLigue( Ligue ligue){
 		  JFrame frame = new JFrame("Editer " + ligue.getNom());
 	        frame.setSize(400, 300);
 	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -71,6 +72,22 @@ public class EditerLigue {
 					// changer l'administrateur de la ligue
 					new ChangerAdmin(ligue);
 				}
+			});
+			
+			btnRenommer.addActionListener(new ActionListener() {
+				@Override
+                public void actionPerformed(ActionEvent e) {
+                    // renommer la ligue
+                    new RenommerLigue(ligue);
+                }
+			});
+			
+			btnSupprimer.addActionListener(new ActionListener() {
+				@Override
+                public void actionPerformed(ActionEvent e) {
+                    // supprimer la ligue
+                    new SupprimerLigue( ligue);
+                }
 			});
 
 

@@ -240,27 +240,27 @@ public class JDBC implements Passerelle
         }
     }
 
-	@Override
-	public int delete(Ligue ligue) throws SauvegardeImpossible {
+@Override
+public int delete(Ligue ligue) throws SauvegardeImpossible {
+    try {
+        // Supprimer les employés associés à la ligue
+        PreparedStatement deleteEmployes = connection.prepareStatement(
+            "DELETE FROM employe WHERE ligue_id = ?");
+        deleteEmployes.setInt(1, ligue.getId());
+        deleteEmployes.executeUpdate();
 
-		try {
-			PreparedStatement instruction;
-			
-			instruction = connection.prepareStatement("delete ligue, employe from ligue LEFT JOIN employe ON employe.ligue_id = ligue.id where ligue.id = ? ", Statement.RETURN_GENERATED_KEYS);
-			instruction.setInt(1, ligue.getId());
+        // Supprimer la ligue
+        PreparedStatement deleteLigue = connection.prepareStatement(
+            "DELETE FROM ligue WHERE id = ?");
+        deleteLigue.setInt(1, ligue.getId());
+        int delete = deleteLigue.executeUpdate();
 
-
-			int delete = instruction.executeUpdate();
-			return delete;
-			
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-			throw new SauvegardeImpossible(e);
-		}
-	
-
-	}
+        return delete;
+    } catch (SQLException exception) {
+        exception.printStackTrace();
+        throw new SauvegardeImpossible(exception);
+    }
+}
 
 
 @Override

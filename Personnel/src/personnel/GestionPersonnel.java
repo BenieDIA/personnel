@@ -134,7 +134,7 @@ public class GestionPersonnel implements Serializable
 	}
 		
 
-	void remove(Ligue ligue)
+	public void remove(Ligue ligue)
 	{
 		ligues.remove(ligue);
 	}

@@ -26,31 +26,31 @@ public class ModifierEmploye extends JFrame {
 	        label.setBounds(20, 20, 350, 25);
 	        menuFrame.add(label);
 
-	        JButton btnAfficher = new JButton("l : Afficher l'employé");
+	        JButton btnAfficher = new JButton(" Afficher l'employé");
 	        btnAfficher.setBounds(20, 50, 350, 30);
 	        menuFrame.add(btnAfficher);
 
-	        JButton btnChangerNom = new JButton("n : Changer le nom");
+	        JButton btnChangerNom = new JButton("Changer le nom");
 	        btnChangerNom.setBounds(20, 90, 350, 30);
 	        menuFrame.add(btnChangerNom);
 
-	        JButton btnChangerPrenom = new JButton("p : Changer le prénom");
+	        JButton btnChangerPrenom = new JButton(" Changer le prénom");
 	        btnChangerPrenom.setBounds(20, 130, 350, 30);
 	        menuFrame.add(btnChangerPrenom);
 
-	        JButton btnChangerMail = new JButton("e : Changer le mail");
+	        JButton btnChangerMail = new JButton("Changer le mail");
 	        btnChangerMail.setBounds(20, 170, 350, 30);
 	        menuFrame.add(btnChangerMail);
 
-	        JButton btnChangerPassword = new JButton("x : Changer le mot de passe");
+	        JButton btnChangerPassword = new JButton(" Changer le mot de passe");
 	        btnChangerPassword.setBounds(20, 210, 350, 30);
 	        menuFrame.add(btnChangerPassword);
 
-	        JButton btnChangerDate = new JButton("d : Changer la date d'inscription");
+	        JButton btnChangerDate = new JButton("Changer la date d'inscription");
 	        btnChangerDate.setBounds(20, 250, 350, 30);
 	        menuFrame.add(btnChangerDate);
 
-	        JButton btnBack = new JButton("q : Back");
+	        JButton btnBack = new JButton(" Back");
 	        btnBack.setBounds(20, 290, 350, 30);
 	        menuFrame.add(btnBack);
 

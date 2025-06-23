@@ -25,9 +25,9 @@ public class loginRoot extends JFrame{
 	public static void main(String[] args) {
 	        // Crée la fenêtre
 	        JFrame frame = new JFrame("Connexion Root");
-	        frame.setSize(300, 150);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frame.setLayout(null);
+	    	frame.setSize(400, 200);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setLayout(null);
 
 	        // Label "Root"
 	        JLabel labelRoot = new JLabel("Root");
