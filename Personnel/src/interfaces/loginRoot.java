@@ -21,9 +21,11 @@ public class loginRoot extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public static void main(String[] args) {
-	        // Crée la fenêtre
+    public loginRoot() {
+    	
+    	        // Vérifie si le root existe, sinon l'ajoute
+    	  ajouterRootSiNecessaire();
+    	  
 	        JFrame frame = new JFrame("Connexion Root");
 	    	frame.setSize(400, 200);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,36 +58,63 @@ public class loginRoot extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 			
 		     		String userName = textRoot.getText();
-	        		String password = textPassword.getText();
+		     	     String password = new String(textPassword.getPassword());
 	
-	            	try {
-	        			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/m2l", "root","");
-	        			PreparedStatement st = connection.prepareStatement("Select nom, password from employe where nom=? and password = ?");
-	        			st.setString(1, userName);
-	        			st.setString(2, password);
-	        			ResultSet rs = st.executeQuery();
-	        			
-	        			if (rs.next()) {
-	                        JOptionPane.showMessageDialog(null, "Connexion réussie !");
-	                        // ouvrir la fenêtre principale ou continuer ton appli
+		     	    try {
+	                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaml", "root", "");
+	                    PreparedStatement st = connection.prepareStatement(
+	                        "SELECT nom, password FROM employe WHERE isSuperUser = TRUE AND nom = ? AND password = ?");
+	                    st.setString(1, userName);
+	                    st.setString(2, password);
+	                    ResultSet rs = st.executeQuery();
+
+	                    if (rs.next()) {
+	                        JOptionPane.showMessageDialog(null, "Connexion réussie en tant que root !");
 	                        frame.dispose();
-	                        new Acceuil();	                        
+	                        new Acceuil(); // Ouvre l'interface principale
 	                    } else {
-	                        JOptionPane.showMessageDialog(null, "Identifiants incorrects.", "Erreur", JOptionPane.ERROR_MESSAGE);
+	                        JOptionPane.showMessageDialog(null, "Accès refusé. Seul le root peut se connecter.", "Erreur", JOptionPane.ERROR_MESSAGE);
 	                    }
-	        			
-	        		      rs.close();
-	        	            st.close();
-	        	            connection.close();
-	        			
-	        		}catch(SQLException ex) {
-	        			ex.printStackTrace();
-	        		}
-	            	
-	                
-				}
-			});
+
+	                    rs.close();
+	                    st.close();
+	                    connection.close();
+
+	                } catch (SQLException ex) {
+	                    ex.printStackTrace();
+	                    JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
+	                }
+	            }
+	        });
 	        	frame.setVisible(true);
 	    }
+
+    private void ajouterRootSiNecessaire() {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaml", "root", "")) {
+            // Vérifie si le root existe déjà
+            PreparedStatement checkRoot = connection.prepareStatement(
+                "SELECT * FROM employe WHERE nom = 'root' AND isSuperUser = TRUE");
+            ResultSet rs = checkRoot.executeQuery();
+
+            if (!rs.next()) {
+                // Ajoute le root avec des identifiants par défaut
+                PreparedStatement insertRoot = connection.prepareStatement(
+                    "INSERT INTO employe (nom, password, isSuperUser) VALUES ('root', 'toor', TRUE)");
+                insertRoot.executeUpdate();
+                insertRoot.close();
+                System.out.println("Root ajouté à la base de données.");
+            }
+
+            rs.close();
+            checkRoot.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erreur lors de l'ajout du root à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        new loginRoot();
+    }
 	       
 }
