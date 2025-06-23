@@ -18,7 +18,7 @@ public class AfficheLigueAdmin {
 	    labelNom.setBounds(50, 30, 250, 30);
 	    frame.add(labelNom);
 
-	    JLabel labelAdmin = new JLabel("Administrée par : " + ligue.getAdministrateur());
+	    JLabel labelAdmin = new JLabel("Administrée par : " + ligue.getAdministrateur().getNom() + " " + ligue.getAdministrateur().getPrenom());
 	    labelAdmin.setBounds(50, 70, 250, 30);
 	    frame.add(labelAdmin);
 

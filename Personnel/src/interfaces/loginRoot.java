@@ -23,9 +23,9 @@ public class loginRoot extends JFrame{
 	private static final long serialVersionUID = 1L;
     public loginRoot() {
     	
-    	        // Vérifie si le root existe, sinon l'ajoute
-    	  ajouterRootSiNecessaire();
-    	  
+    	   // Vérifie si le root existe, sinon l'ajoute
+  	  ajouterRootSiNecessaire();
+  	  
 	        JFrame frame = new JFrame("Connexion Root");
 	    	frame.setSize(400, 200);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -63,7 +63,7 @@ public class loginRoot extends JFrame{
 		     	    try {
 	                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaml", "root", "");
 	                    PreparedStatement st = connection.prepareStatement(
-	                        "SELECT nom, password FROM employe WHERE isSuperUser = TRUE AND nom = ? AND password = ?");
+	                        "SELECT nom, password FROM employe WHERE ligue_id is null AND nom = ? AND password = ?");
 	                    st.setString(1, userName);
 	                    st.setString(2, password);
 	                    ResultSet rs = st.executeQuery();
@@ -89,32 +89,32 @@ public class loginRoot extends JFrame{
 	        	frame.setVisible(true);
 	    }
 
-    private void ajouterRootSiNecessaire() {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaml", "root", "")) {
-            // Vérifie si le root existe déjà
-            PreparedStatement checkRoot = connection.prepareStatement(
-                "SELECT * FROM employe WHERE nom = 'root' AND isSuperUser = TRUE");
-            ResultSet rs = checkRoot.executeQuery();
+  private void ajouterRootSiNecessaire() {
+      try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaml", "root", "")) {
+          // Vérifie si le root existe déjà
+          PreparedStatement checkRoot = connection.prepareStatement(
+              "SELECT * FROM employe WHERE ligue_id IS NULL ");
+          ResultSet rs = checkRoot.executeQuery();
 
-            if (!rs.next()) {
-                // Ajoute le root avec des identifiants par défaut
-                PreparedStatement insertRoot = connection.prepareStatement(
-                    "INSERT INTO employe (nom, password, isSuperUser) VALUES ('root', 'toor', TRUE)");
-                insertRoot.executeUpdate();
-                insertRoot.close();
-                System.out.println("Root ajouté à la base de données.");
-            }
+          if (!rs.next()) {
+              // Ajoute le root avec des identifiants par défaut
+              PreparedStatement insertRoot = connection.prepareStatement(
+                  "INSERT INTO employe (nom, password) VALUES ('root', 'toor')");
+              insertRoot.executeUpdate();
+              insertRoot.close();
+              System.out.println("Root ajouté à la base de données.");
+          }
 
-            rs.close();
-            checkRoot.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erreur lors de l'ajout du root à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+          rs.close();
+          checkRoot.close();
+      } catch (SQLException ex) {
+          ex.printStackTrace();
+          JOptionPane.showMessageDialog(null, "Erreur lors de l'ajout du root à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
+      }
+  }
 
-    public static void main(String[] args) {
-        new loginRoot();
-    }
+  public static void main(String[] args) {
+      new loginRoot();
+  }
 	       
 }
