@@ -65,6 +65,13 @@ public class EditerLigue {
 					new GererLesEmployes(ligue);
 				}
 			});
+			btnChangerAdmin.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// changer l'administrateur de la ligue
+					new ChangerAdmin(ligue);
+				}
+			});
 
 
 	        frame.setVisible(true);
