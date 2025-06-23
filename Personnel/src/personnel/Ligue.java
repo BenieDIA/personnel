@@ -90,14 +90,16 @@ public Employe getAdministrateur() {
 	 * administrateur.
 	 * @param administrateur le nouvel administrateur de la ligue.
 	 */
-	
-	public void setAdministrateur(Employe administrateur)
-	{
-		Employe root = gestionPersonnel.getRoot();
-		if (administrateur != root && administrateur.getLigue() != this)
-			throw new DroitsInsuffisants();
-		this.administrateur = administrateur;
-	}
+
+public void setAdministrateur(Employe administrateur) throws SauvegardeImpossible {
+    Employe root = gestionPersonnel.getRoot();
+    if (administrateur != root && administrateur.getLigue() != this) {
+        throw new DroitsInsuffisants();
+    }
+    this.administrateur = administrateur;
+    gestionPersonnel.setAdmin(administrateur);
+}
+
 
 	/**
 	 * Retourne les employés de la ligue.
@@ -121,21 +123,19 @@ public Employe getAdministrateur() {
 	 * @throws SauvegardeImpossible 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate dateInscription, LocalDate Depart) throws SauvegardeImpossible
-	{
-	    GestionPersonnel gestion = GestionPersonnel.getGestionPersonnel();
-	
-	    Employe employe = new Employe(gestion,this, -1, nom, prenom, mail, password, dateInscription, Depart);
-	    this.employes.add(employe);
 
-	    return employe;
-	}
-	
-	public Employe addEmploye(int id, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart){
-		Employe employe = new Employe(this.gestionPersonnel, this, id, nom, prenom, mail, password, dateArrivee, dateDepart);
-		employes.add(employe);
-		return employe;
-	}
+public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) throws SauvegardeImpossible {
+    Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, dateArriver, dateDepart);
+    this.employes.add(employe); // Ajout de l'employé à la liste des employés
+    return employe;
+}
+
+public Employe addEmploye(int id, String nom, String prenom, String mail, String password, LocalDate dateArriver, LocalDate dateDepart) {
+    Employe employe = new Employe(this.gestionPersonnel, this, id, nom, prenom, mail, password, dateArriver, dateDepart);
+    this.employes.add(employe); // Ajout de l'employé à la liste des employés
+    return employe;
+}
+
 	
 	public void remove(Employe employe) throws datesInvalides, SauvegardeImpossible
 	{
@@ -145,6 +145,7 @@ public Employe getAdministrateur() {
 		employe.setDepart(LocalDate.now());
 		
 	}
+
 	public void addEmploye(Employe employe)  throws datesInvalides, SauvegardeImpossible{
         employes.add(employe);
     }
@@ -152,7 +153,6 @@ public Employe getAdministrateur() {
         employes.add(employe);
         
     }
-	
 	/**
 	 * Supprime la ligue, entraîne la suppression de tous les employés
 	 * de la ligue.

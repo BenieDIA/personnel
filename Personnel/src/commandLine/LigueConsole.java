@@ -183,13 +183,25 @@ public class LigueConsole
 	{
 		return new List<Employe>("changer administrateur", "k", 
 				() -> new ArrayList<>(ligue.getEmployes()),
-				(index, element) -> ligue.setAdministrateur(element ));
+				(index, element) -> {
+					try {
+						ligue.setAdministrateur(element );
+					} catch (SauvegardeImpossible e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
 		
 	}		
 	private Option retirerAdministrateur(Ligue ligue)
 	{
 	
-		return new Option("Retirer les droits d'administrateur", "t", () -> {ligue.setAdministrateur(gestionPersonnel.getRoot());});
+		return new Option("Retirer les droits d'administrateur", "t", () -> {try {
+			ligue.setAdministrateur(gestionPersonnel.getRoot());
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}});
 		
 	}		
 	

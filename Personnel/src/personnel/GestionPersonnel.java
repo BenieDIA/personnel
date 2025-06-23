@@ -55,7 +55,7 @@ public class GestionPersonnel implements Serializable
 
 
 	} else {
-		 System.out.println("GestionPersonnel déjà créé");	
+		 System.out.println("bienvenu dans la gestion du personnel");	
 			
 		}
 		return gestionPersonnel;
@@ -142,7 +142,7 @@ public class GestionPersonnel implements Serializable
 	public int delete(Ligue ligue) throws SauvegardeImpossible {
 		return passerelle.delete(ligue);
 	}
-	 static int delete(Employe employe) throws SauvegardeImpossible {
+	 public static int delete(Employe employe) throws SauvegardeImpossible {
 		return passerelle.delete(employe);
 	}
 
@@ -161,7 +161,10 @@ public class GestionPersonnel implements Serializable
 		       Employe employe = new Employe(this,null, id, nom, null, null, password, null, null);
 		           this.root = employe;
 		    }
-		  
+	int setAdmin(Employe employe)throws SauvegardeImpossible
+	{
+		return passerelle.setAdmin(employe);
+	}
      
 	
 	
